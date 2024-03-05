@@ -13,20 +13,9 @@ class RegisterTest extends DuskTestCase
 
     public function setUp(): void
     {
-        //parent::setUp();
-
-        //$this->artisan('db:seed');
-    }
-
-    /**
-     * A Dusk test example.
-     */
-    public function testExample(): void
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/')
-                    ->assertSee('Laracasts');
-        });
+        parent::setUp();
+        $this->artisan('migrate:fresh');
+        $this->artisan('db:seed');
     }
 
     public function test_register_succeed(): void
@@ -35,11 +24,42 @@ class RegisterTest extends DuskTestCase
             $browser->visit('/register')
                 ->type('@name', 'John Doe')
                 ->type('@email', 'test@mail.com')
-                ->type('@role', 'basis gebruiker')
+                ->select('@role', 'basis gebruiker')
                 ->type('@password', 'wachtwoord123')
                 ->type('@password_confirmation', 'wachtwoord123')
                 ->press('@create')
-                -assertPathIs('/dashboard');
+                ->assertPathIs('/dashboard');
         });
     }
+
+    public function test_register_fails_on_password(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/register')
+                ->type('@name', 'John Doe')
+                ->type('@email', 'test@mail.com')
+                ->select('@role', 'basis gebruiker')
+                ->type('@password', 'wachtwoord456')
+                ->type('@password_confirmation', 'wachtwoord123')
+                ->press('@create')
+                ->assertPathIs('/register')
+                ->assertSee('The password field confirmation does not match.');
+        });
+    }
+
+    public function test_register_fails_on_role(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/register')
+                ->type('@name', 'John Doe')
+                ->type('@email', 'test@mail.com')
+                ->select('@role', 'admin')
+                ->type('@password', 'wachtwoord456')
+                ->type('@password_confirmation', 'wachtwoord123')
+                ->press('@create')
+                ->assertPathIs('/register');
+        });
+    }
+
+
 }
