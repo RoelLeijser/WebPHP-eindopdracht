@@ -28,4 +28,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+//Language settings
+Route::get('set-locale/{locale}', function ($locale) {
+    session()->put('locale', $locale);
+    app()->setlocale($locale);
+
+    return redirect()->back();
+})->name('locale.setting');
+
 require __DIR__.'/auth.php';
