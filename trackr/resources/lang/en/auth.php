@@ -37,5 +37,6 @@ return [
         'password' => 'Password',
         'email' => 'Email',
         'name' => 'Name',
+        'role' => 'Role',
     ]
 ];

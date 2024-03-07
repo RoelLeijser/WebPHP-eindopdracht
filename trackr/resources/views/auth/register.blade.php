@@ -5,20 +5,20 @@
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('auth.label.name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-text-input dusk="name" id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('auth.label.email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-text-input dusk="email" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Role -->
         <div class="mt-4">
-            <x-input-label for="role" :value="_('auth.label.role')"/>
+            <x-input-label for="role" :value="__('auth.label.role')"/>
             <select dusk="role" name="role" class="block mt-1 w-full rounded">
                 @foreach($roles as $role)
                     <option value="{{$role->name}}" {{ old('role') == $role->name ? 'selected' : '' }}>{{ucWords($role->name)}}</option>
@@ -57,7 +57,7 @@
                 {{ __('auth.already_registered') }}
             </a>
 
-            <x-primary-button class="ms-4">
+            <x-primary-button  dusk="create" class="ms-4">
                 {{ __('auth.register') }}
             </x-primary-button>
         </div>

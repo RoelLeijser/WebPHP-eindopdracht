@@ -43,7 +43,7 @@ class RegisterTest extends DuskTestCase
                 ->type('@password_confirmation', 'wachtwoord123')
                 ->press('@create')
                 ->assertPathIs('/register')
-                ->assertSee('The password field confirmation does not match.');
+                ->assertSee('The password confirmation does not match.');
         });
     }
 
