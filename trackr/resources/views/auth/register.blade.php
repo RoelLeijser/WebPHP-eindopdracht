@@ -16,6 +16,17 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
+        <!-- Role -->
+        <div class="mt-4">
+            <x-input-label for="role" :value="_('auth.label.role')"/>
+            <select dusk="role" name="role" class="block mt-1 w-full rounded">
+                @foreach($roles as $role)
+                    <option value="{{$role->name}}" {{ old('role') == $role->name ? 'selected' : '' }}>{{ucWords($role->name)}}</option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
+
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('auth.label.password')" />
@@ -23,6 +34,7 @@
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
+                            dusk="password"
                             required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
@@ -34,6 +46,7 @@
 
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
                             type="password"
+                            dusk="password_confirmation"
                             name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
