@@ -13,25 +13,25 @@ return [
     |
     */
 
-    'accepted' => 'De :attribute moet geaccepteerd zijn',
-    'accepted_if' => 'De :attribute moet geaccepteerd zijn wanneer :other is :value.',
-    'active_url' => 'De :attribute geen valide link.',
-    'after' => 'De :attribute moet een datum na :date zijn.',
+    'accepted' => 'Een :attribute moet geaccepteerd zijn',
+    'accepted_if' => 'Een :attribute moet geaccepteerd zijn wanneer :other gelijk is aan :value.',
+    'active_url' => ':attribute is geen valide link.',
+    'after' => ':attribute moet een datum na :date zijn.',
     'after_or_equal' => 'De :attribute moet een datum na of tijgelijk met :date zijn.',
-    'alpha' => 'De :attribute mag alleen letters bevatten.',
-    'alpha_dash' => 'De :attribute mag alleen letters, nummers, streepjes en onderstrepingstekens bevatten.',
-    'alpha_num' => 'De :attribute mag alleen letters en nummers bevatten.',
+    'alpha' => 'Een :attribute mag alleen letters bevatten.',
+    'alpha_dash' => 'Een :attribute mag alleen letters, nummers, streepjes en onderstrepingstekens bevatten.',
+    'alpha_num' => 'Een :attribute mag alleen letters en nummers bevatten.',
     'array' => 'De :attribute moet een array zijn.',
-    'before' => 'De :attribute moet een datum voor :date zijn.',
-    'before_or_equal' => 'De :attribute moet een datum voor of gelijk aan :date. zijn',
+    'before' => ':attribute moet een datum voor :date zijn.',
+    'before_or_equal' => ':attribute moet een datum voor of gelijk aan :date. zijn',
     'between' => [
-        'numeric' => 'De :attribute moet tussen :min en :max liggen.',
-        'file' => 'De :attribute moet tussen :min en :max kilobytes zijn.',
+        'numeric' => 'Het:attribute moet tussen :min en :max liggen.',
+        'file' => 'Het :attribute moet tussen :min en :max kilobytes zijn.',
         'string' => 'De :attribute moet tussen :min en :max karakters lang zijn.',
         'array' => 'De :attribute moet tussen :min en :max items bevatten.',
     ],
     'boolean' => 'De :attribute veld moet true of false zijn.',
-    'confirmed' => 'De :attribute confirmatie klopt niet.',
+    'confirmed' => 'Het :attribute komt niet overeen.',
     'current_password' => 'Het wachtwoord is incorrect.',
     'date' => 'De :attribute geen correcte datum.',
     'date_equals' => 'De :attribute moet een datum gelijk aan :date zijn.',
@@ -85,15 +85,15 @@ return [
     'max' => [
         'numeric' => 'De :attribute mag niet groter dan :max zijn zijn.',
         'file' => 'De :attribute mag niet groter dan :max kilobytes zijn.',
-        'string' => 'De :attribute mag niet langer dan :max characters zijn.',
+        'string' => 'Een :attribute mag niet langer dan :max karakters zijn.',
         'array' => 'De :attribute mag niet groter dan :max items zijn.',
     ],
     'mimes' => 'De :attribute moet een file met het type: :values. zijn',
     'mimetypes' => 'De :attribute moet een file met het type: :values zijn.',
     'min' => [
-        'numeric' => 'De :attribute moet minstens :min zijn.',
+        'numeric' => ':attribute moet minstens :min zijn.',
         'file' => 'De :attribute moet minstens :min kilobytes zijn.',
-        'string' => 'De :attribute moet minstens :min karakters lang zijn.',
+        'string' => ':attribute moet minstens :min karakters lang zijn.',
         'array' => 'De :attribute moet minstens :min items bevatten.',
     ],
     'multiple_of' => 'De :attribute moet een multiplicatie van :value zijn.',
@@ -107,8 +107,8 @@ return [
     'prohibited_unless' => 'De :attribute veld is niet toegestaan als hij niet :other of :values is.',
     'prohibits' => 'De :attribute veld staat niet toe dat :other aanwezig is.',
     'regex' => 'De :attribute format is invalide.',
-    'required' => 'De :attribute veld is verplicht.',
-    'required_if' => 'De :attribute veld is verplicht wanneer :other is :value.',
+    'required' => ':attribute veld is verplicht.',
+    'required_if' => ':attribute veld is verplicht wanneer :other is :value.',
     'required_unless' => 'De :attribute veld is verplicht tenzij :other in :values is.',
     'required_with' => 'De :attribute veld is verplicht wanneer :values aanwezig is.',
     'required_with_all' => 'De :attribute veld is verplicht wanneer :values aanwezig zijn.',
@@ -118,13 +118,13 @@ return [
     'size' => [
         'numeric' => 'De :attribute moet :size.',
         'file' => 'De :attribute moet :size kilobytes.',
-        'string' => 'De :attribute moet :size characters.',
+        'string' => 'De :attribute moet :size karakters bevatten.',
         'array' => 'De :attribute moet :size items bevatten.',
     ],
     'starts_with' => 'De :attribute moet met een van de volgende waardes starten: :values.',
-    'string' => 'De :attribute moet een string zijn.',
-    'timezone' => 'v :attribute moet een valide timezone.',
-    'unique' => 'De :attribute is al in bezit.',
+    'string' => 'Een :attribute moet een string zijn.',
+    'timezone' => ':attribute moet een valide timezone.',
+    'unique' => 'Het opgegeven :attribute is al in bezit.',
     'uploaded' => 'De :attribute is gefaald met uploaden.',
     'url' => 'De :attribute moet een valide URL zijn.',
     'uuid' => 'De :attribute moet een valide URL UUID zijn.',
@@ -148,10 +148,10 @@ return [
     ],
 
     'password' => [
-        'ul' => 'Een wachtwoord moet op zijn minst een hoofdletter en kleine letter bevatten.',
-        'one_letter' => 'Een wachtwoord moet op zijn minst een letter bevatten.',
-        'one_symbol' => 'Een wachtwoord moet op zijn minst een speciaal symbool bevatten.',
-        'one_number' => 'Een watchwoord moet op zijn minst een nummer bevatten.'
+        'ul' => 'Het wachtwoord moet op zijn minst een hoofdletter en kleine letter bevatten.',
+        'one_letter' => 'Het wachtwoord moet op zijn minst een letter bevatten.',
+        'one_symbol' => 'Het wachtwoord moet op zijn minst een speciaal symbool bevatten.',
+        'one_number' => 'Het watchwoord moet op zijn minst een nummer bevatten.'
     ],
 
     /*
@@ -166,7 +166,9 @@ return [
     */
 
     'attributes' => [
-        'password' => 'wachtwoord'
+        'name' => 'naam',
+        'password' => 'wachtwoord',
+        'role' => 'rol',
     ],
 
 ];
