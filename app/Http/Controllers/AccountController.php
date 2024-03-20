@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 use App\Models\User;
 
 class AccountController extends Controller
 {
     public function index() : View
     {
-        $accounts = User::filter(request(['search']))->paginate(5);
+        $accounts = User::filter(request(['search']))->with('roles')->paginate(5);
         return view('account.index')->with("accounts", $accounts);
     }
 
