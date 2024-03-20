@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -29,6 +30,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+//TODO: add role admin with spatie and permissions
+Route::resource('account', AccountController::class, ['except' => ['create', 'store']])->middleware('auth');
+
 
 //Language settings
 Route::get('set-locale/{locale}', function ($locale) {
