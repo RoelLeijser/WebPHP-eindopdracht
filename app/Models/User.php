@@ -59,7 +59,5 @@ class User extends Authenticatable
                 $query->where('name', $role);
             });
         });
-
-        return $query;
     }
 }
