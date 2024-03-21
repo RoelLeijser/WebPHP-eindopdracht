@@ -10,4 +10,5 @@ return [
     'delete' => 'Delete',
     'user_deleted' => 'The user has been deleted',
     'user_not_found' => 'The user cannot be found',
+    'role_filter' => 'Select role',
 ];

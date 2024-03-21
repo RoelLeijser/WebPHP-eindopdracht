@@ -13,8 +13,13 @@ class AccountController extends Controller
 {
     public function index() : View
     {
-        $accounts = User::filter(request(['search']))->with('roles')->paginate(5);
-        return view('account.index')->with("accounts", $accounts);
+        $sort = request('sort','asc');
+
+        $roles = Role::all()->pluck('name');
+        $accounts = User::filter(request(['search', 'role']))->orderBy('name', $sort)->with('roles')->paginate(5);
+
+        $nextSort = $sort === 'asc' ? 'desc' : 'asc';
+        return view('account.index')->with(compact('accounts', 'nextSort', 'roles'));
     }
 
     public function show() : View

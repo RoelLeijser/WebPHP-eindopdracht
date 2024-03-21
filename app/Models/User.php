@@ -52,5 +52,14 @@ class User extends Authenticatable
             ->where('name', 'like', '%' . $search . '%')
             ->orWhere('email', 'like', '%' . $search . '%');
         });
+
+        $query->when($filters['role'] ?? false, function ($query) use ($filters) {
+            $role = $filters['role'];
+            $query->whereHas('roles', function ($query) use ($role) {
+                $query->where('name', $role);
+            });
+        });
+
+        return $query;
     }
 }

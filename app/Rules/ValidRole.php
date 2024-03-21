@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use App\Models\Role;
+use Spatie\Permission\Models\Role;
 
 class ValidRole implements ValidationRule
 {
