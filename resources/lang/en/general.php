@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'search' => 'Search',
     'pagination' => [
         'showing' => 'Showing',
         'to' => 'to',

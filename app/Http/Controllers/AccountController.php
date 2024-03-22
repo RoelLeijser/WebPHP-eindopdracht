@@ -27,9 +27,11 @@ class AccountController extends Controller
         return view('show');
     }
 
-    public function edit() : View
+    public function edit($id) : View
     {
-        return view('show');
+        $account = User::findOrFail($id);
+        $roles = Role::all()->pluck('name');
+        return view('account.edit')->with(compact('account', 'roles'));
     }
 
     public function update(): RedirectResponse
