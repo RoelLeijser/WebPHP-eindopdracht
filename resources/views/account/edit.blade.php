@@ -25,7 +25,7 @@
                             <input name="email" hidden value="{{$account->email}}">
                             <div class="py-1">
                                 <label class="text-lg" for="role">{{ __('account.edit.role') }}</label>
-                                <x-select name="role" class="block mt-1 rounded">
+                                <x-select dusk="select" name="role" class="block mt-1 rounded">
                                     @foreach($roles as $role)
                                         <x-option :value="$role" :selected="$account->roles->first()->name == $role">{{ucWords($role)}}</x-option>
                                     @endforeach
@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                             <div class="py-4">
-                                <x-primary-button>{{ __('account.edit.button') }}</x-primary-button>
+                                <x-primary-button dusk="update">{{ __('account.edit.button') }}</x-primary-button>
                             </div>
                         </form>
                    </div>

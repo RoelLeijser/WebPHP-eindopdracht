@@ -21,7 +21,7 @@
                                 <x-search></x-search>
                             </div>
                             <div class="flex">
-                                <x-select name="role" form="filter-form" class="form-select w-full" onchange="this.form.submit()">
+                                <x-select dusk="select" name="role" form="filter-form" class="form-select w-full" onchange="this.form.submit()">
                                     <x-option>{{ __('account.role_filter') }}</x-option>
                                     @foreach($roles as $role)
                                             <x-option :value="$role" :selected="request('role') == $role">{{ucWords($role)}}</x-option>
@@ -66,7 +66,7 @@
                                             <form method="post" action="{{ route('account.destroy', $account->id) }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <x-danger-button> {{__('account.delete')}}</x-danger-button>
+                                                <x-danger-button dusk="delete"> {{__('account.delete')}}</x-danger-button>
                                             </form>
                                         </x-table-cell>
                                     </x-table-row>
