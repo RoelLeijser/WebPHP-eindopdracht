@@ -21,7 +21,7 @@
                                 <x-search></x-search>
                             </div>
                             <div class="flex">
-                                <x-select name="role" form="filter-form" class="form-select" onchange="this.form.submit()">
+                                <x-select name="role" form="filter-form" class="form-select w-full" onchange="this.form.submit()">
                                     <x-option>{{ __('account.role_filter') }}</x-option>
                                     @foreach($roles as $role)
                                             <x-option :value="$role" :selected="request('role') == $role">{{ucWords($role)}}</x-option>
@@ -33,6 +33,7 @@
                     </div>
 
                     <div class=" px-3 relative overflow-x-auto shadow-md sm:rounded-lg">
+                    @if($accounts->count() > 0)
                         <x-table>
                             <x-thead>
                                 <x-table-col-name>{{ __('account.email') }}</x-table-col-name>
@@ -75,6 +76,9 @@
                         <div class="py-4 px-3">
                             {{ $accounts->links() }}
                         </div>
+                    @else
+                        <x-zero-results-section>{{__('account.null_results')}}</x-zero-results-section>
+                    @endif
                     </div>
                 </div>
             </div>

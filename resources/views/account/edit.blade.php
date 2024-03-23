@@ -6,35 +6,48 @@
     </x-slot>
 
     <div class="py-12">
+        @if(session()->has('error'))
+            <x-flash-message class="bg-red-100 dark:bg-red-100">{{ session('error') }}</x-flash-message>
+        @endif
+
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div>
-                        <h1><strong>Naam: </strong>{{ $account->name }}</h1>
-                        <h1><strong>Email: </strong>{{ $account->email }}</h1>
+                    <div class="py-4 px-3">
+                        <h1><strong>{{ __('account.edit.name') }}</strong>{{ $account->name }}</h1>
+                        <h1><strong>{{ __('account.edit.email') }}</strong>{{ $account->email }}</h1>
                     </div>
-                   <div>
-                        <form method="post" action="#">
-                            <div>
-                                <label for="role">Wijzig rol</label>
-                                <select dusk="role" name="role" class="block mt-1 w-full rounded">
+                   <div class="py-4 px-3">
+                        <form method="post" action="{{route('account.update', $account->id)}}">
+                            @csrf
+                            @method('PUT')
+                            <input name="name" hidden value="{{$account->name}}">
+                            <input name="email" hidden value="{{$account->email}}">
+                            <div class="py-1">
+                                <label class="text-lg" for="role">{{ __('account.edit.role') }}</label>
+                                <x-select name="role" class="block mt-1 rounded">
                                     @foreach($roles as $role)
-                                        <option value="{{$role}}" {{ $account->roles->first()->name == $role ? 'selected' : '' }}>{{ucWords($role)}}</option>
+                                        <x-option :value="$role" :selected="$account->roles->first()->name == $role">{{ucWords($role)}}</x-option>
                                     @endforeach
+                                </x-select>
+                                <x-input-error :messages="$errors->get('role')" class="mt-2" />
+                            </div>
+                            <div class="py-4">
+                                <label class="text-lg" for="permissions">{{ __('account.edit.permission') }}</label>
+                                <hr/>
+                                    <div class="grid grid-cols-4">
+                                        @foreach($permissions as $permission)
+                                            <div class="py-1">
+                                                <input type="checkbox" name="permissions[]" value="{{$permission}}" {{ $account->hasPermissionTo($permission) ? 'checked' : '' }}>
+                                                <label>{{ucWords($permission)}}</label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <x-input-error :messages="$errors->get('permissions')" class="mt-2" />
                                 </select>
                             </div>
-                            <div>
-                                <label>Wijzig permissies</label>
-                                    @foreach($roles as $role) <!-- TODO: change to all permission -->
-                                        <div>
-                                            <input type="checkbox" name="permissions">
-                                            <label for="">Permission</label>
-                                        </div>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <button type="submit">Wijzig account</button>
+                            <div class="py-4">
+                                <x-primary-button>{{ __('account.edit.button') }}</x-primary-button>
                             </div>
                         </form>
                    </div>

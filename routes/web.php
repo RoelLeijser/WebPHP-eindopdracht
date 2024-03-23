@@ -32,8 +32,10 @@ Route::middleware('auth')->group(function () {
 });
 
 
-//TODO: add role admin with spatie and permissions
-Route::resource('account', AccountController::class, ['except' => ['create', 'store']])->middleware('auth');
+Route::group(['middleware' => ['auth', 'role:admin']], function() {
+    Route::resource('account', AccountController::class, ['except' => ['create', 'store', 'show']]);
+});
+
 
 
 //Language settings
