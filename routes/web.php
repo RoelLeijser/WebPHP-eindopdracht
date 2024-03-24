@@ -30,6 +30,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/company', [CompanyController::class, 'create'])->name('company.create');
+    Route::get('/company', [CompanyController::class, 'edit'])->name('company.edit');
+    Route::patch('/company', [CompanyController::class, 'update'])->name('company.update');
+});
+
+
 //Language settings
 Route::get('set-locale/{locale}', function ($locale) {
 

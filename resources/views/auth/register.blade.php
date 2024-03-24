@@ -21,7 +21,7 @@
             <x-input-label for="role" :value="__('auth.label.role')"/>
             <select dusk="role" name="role" class="block mt-1 w-full rounded">
                 @foreach($roles as $role)
-                    <option value="{{$role->name}}" {{ old('role') == $role->name ? 'selected' : '' }}>{{ucWords($role->name)}}</option>
+                    <option value="{{$role}}" {{ old('role') == $role ? 'selected' : '' }}>{{ucWords($role)}}</option>
                 @endforeach
             </select>
             <x-input-error :messages="$errors->get('role')" class="mt-2" />
