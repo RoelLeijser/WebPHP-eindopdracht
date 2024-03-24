@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -30,10 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/company', [CompanyController::class, 'create'])->name('company.create');
-    Route::get('/company', [CompanyController::class, 'edit'])->name('company.edit');
-    Route::patch('/company', [CompanyController::class, 'update'])->name('company.update');
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('company', CompanyController::class, ['except' => ['index']]);
 });
 
 

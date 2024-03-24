@@ -46,6 +46,9 @@
                                                 this.closest('form').submit();">
                                 {{ __('auth.log_out') }}
                             </x-dropdown-link>
+                            <x-dropdown-link :href="route('company.show', Auth::user()->id)">
+                            {{ __('company.title') }}
+                            </x-dropdown-link>
                         </form>
                     </x-slot>
                 </x-dropdown>
