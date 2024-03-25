@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('company', CompanyController::class, ['except' => ['index']]);
+    Route::resource('company', CompanyController::class, ['except' => ['index', 'destroy']]);
 });
 
 

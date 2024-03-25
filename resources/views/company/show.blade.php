@@ -17,22 +17,24 @@
                        <!-- if statement for als niet ondertekent is dat het niet een eigen landingspagina kan creeeren. -->
                        <div>
                             <div class="py-2">
-                                <h2>{{ __('company.slug') }}<span>{{$company->custom_url}}</span></h2>
+                                <h2 class="text-lg"><strong>{{ __('company.slug') }}</strong><span>{{$company->custom_url}}</span></h2>
                             </div>
                             <div class="py-2"> 
-                                <h2>{{ __('company.font') }}<span>{{$company->font_style}}</span></h2>
+                                <h2 class="text-lg"><strong>{{ __('company.font') }}</strong><span>{{$company->font_style}}</span></h2>
+                            </div>
+                            <div class="py-2 content-center flex">
+                                <h2 class="text-lg"><strong>{{ __('company.color') }}</strong></h2>
+                                <div style="background-color: {{$company->color_modification}}" class="h-5 ml-1 rounded-md w-20"></div>
                             </div>
                             <div class="py-2">
-                                <h2>{{ __('company.color') }}<span>{{$company->color_modification}}</span></h2>
-                            </div>
-                            <div class="py-2">
-                                <h2>{{ __('company.introduction_text') }}</h2>
+                                <h2 class="text-lg"><strong>{{ __('company.introduction_text') }}</strong></h2>
                                 <p class="border border-gray-200 mt-2 p-2">{{$company->introduction_text}}</p>
                             </div>
                             <div class="py-2">
-                                <x-primary-button>{{ __('company.update_button') }}</x-primary-button>
+                                <a href="{{route('company.edit', $company->id)}}"><x-primary-button>{{ __('company.update_button') }}</x-primary-button></a>
                             </div>
                        </div>
+                       <!-- TODO: add permission -->
                       <!-- <div class="flex justify-center py-3 text-red-600">
                             <h1> {{ __('company.contract_not_confirmed') }}</h1>
                        </div> -->
