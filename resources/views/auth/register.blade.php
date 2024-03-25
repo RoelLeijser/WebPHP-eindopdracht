@@ -19,11 +19,11 @@
         <!-- Role -->
         <div class="mt-4">
             <x-input-label for="role" :value="__('auth.label.role')"/>
-            <select dusk="role" name="role" class="block mt-1 w-full rounded">
+            <x-select dusk="role" name="role" class="block mt-1 w-full rounded">
                 @foreach($roles as $role)
-                    <option value="{{$role->name}}" {{ old('role') == $role->name ? 'selected' : '' }}>{{ucWords($role->name)}}</option>
+                    <x-option :value="$role" :selected="request('role') == $role">{{ucWords($role)}}</x-option>
                 @endforeach
-            </select>
+            </x-select>
             <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>
 

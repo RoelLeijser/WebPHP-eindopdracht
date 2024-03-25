@@ -147,6 +147,10 @@ return [
         ],
     ],
 
+    'permissions' => [
+        'permissions' => 'De :attribute moeten bestaan.',
+    ],
+
     'password' => [
         'ul' => 'Het wachtwoord moet op zijn minst een hoofdletter en kleine letter bevatten.',
         'one_letter' => 'Het wachtwoord moet op zijn minst een letter bevatten.',
@@ -169,6 +173,7 @@ return [
         'name' => 'naam',
         'password' => 'wachtwoord',
         'role' => 'rol',
+        'permissions' => 'rechten',
     ],
 
 ];

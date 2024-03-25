@@ -4,9 +4,9 @@ namespace App\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
-class ValidRole implements ValidationRule
+class PermissionExist implements ValidationRule
 {
     /**
      * Run the validation rule.
@@ -15,10 +15,13 @@ class ValidRole implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $roles = Role::where('name', '<>', 'admin')->get();
-        
-        if(!$roles->contains('name', $value)) {
-            $fail('The :attribute must be valid.');
+        $permissions = Permission::all()->pluck('name');
+        foreach($value as $item){
+            if(!$permissions->contains($item)) {
+                $fail('The :attribute must exist.');
+            }
         }
+
+
     }
 }

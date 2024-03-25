@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -12,8 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use App\Rules\validRole;
+use App\Rules\ValidRole;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -22,8 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        $roles = Role::where('name', '<>', 'admin')->get();
-
+        $roles = Role::where('name', '<>', 'admin')->pluck('name');
         return view('auth.register')->with('roles', $roles);
     }
 
@@ -45,8 +44,9 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
         ]);
+        
+        $user->assignRole($request->role);
 
         event(new Registered($user));
 
