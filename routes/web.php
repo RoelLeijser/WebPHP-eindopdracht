@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AdvertisementController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -15,7 +16,8 @@ use Illuminate\Support\Facades\Session;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,7 +34,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::group(['middleware' => ['auth', 'role:admin']], function() {
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::resource('account', AccountController::class, ['except' => ['create', 'store', 'show']]);
 });
 
@@ -46,3 +48,5 @@ Route::get('set-locale/{locale}', function ($locale) {
 
     return redirect()->back();
 })->name('locale.setting');
+
+Route::resource('advertisements', AdvertisementController::class);
