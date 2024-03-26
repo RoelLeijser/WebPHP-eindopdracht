@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
             $table->decimal('price', 10, 2)->nullable();
             $table->string('image');
-            $table->enum('type', ['auction', 'rental']);
+            $table->enum('type', ['sell', 'rental']);
             $table->enum('delivery', ['pickup', 'shipping', 'pickup_shipping']);
 
             $table->timestamps();
