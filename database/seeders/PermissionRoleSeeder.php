@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class PermissionRoleSeeder extends Seeder
 {
@@ -13,9 +14,15 @@ class PermissionRoleSeeder extends Seeder
      */
     public function run(): void
     {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        Permission::create(['name' => 'contract accepted']);
+
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'basis gebruiker']);
         Role::create(['name' => 'particuliere adverteerder']);
         Role::create(['name' => 'zakelijke adverteerder']);
+
+
     }
 }

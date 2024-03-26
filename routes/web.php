@@ -31,10 +31,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function() {
     Route::resource('company', CompanyController::class, ['except' => ['index', 'destroy']]);
 });
 
+Route::group(['middleware' => ['auth', 'can:contract accepted']], function() {
+    Route::get('company/{company}/edit', [CompanyController::class, 'edit'])->name('company.edit');
+    Route::put('company/{company}', [CompanyController::class, 'update'])->name('company.update');
+});
+
+Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');
 
 //Language settings
 Route::get('set-locale/{locale}', function ($locale) {

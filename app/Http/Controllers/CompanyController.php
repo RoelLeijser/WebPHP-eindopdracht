@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class CompanyController extends Controller
 {
@@ -37,7 +38,6 @@ class CompanyController extends Controller
         ]);
 
         return redirect()->route('company.show', $user_id)->with('success', __('company.company_created'));
-
     }
 
     /**
@@ -46,7 +46,7 @@ class CompanyController extends Controller
     public function show($id) : View
     {
         $company = Company::where('user_id', $id)->first();
-        if(!$company->exists()) {
+        if(is_null($company)) {
             return view('company.create');
         }
        
@@ -69,26 +69,44 @@ class CompanyController extends Controller
     {
 
         $request->validate([
-            'name' => ['required', 'min:3', 'max:255'],
-            'slug' => ['max:55', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/i'],
-            'color' => ['regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
-            'introduction' => ['max:255'],
+            'name' => ['required', 'min:3', 'max:255', Rule::unique('companies')->ignore($id)],
+            'logo' => ['image', 'mimes:jpeg,jpg'],
+            'slug' => ['max:55', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/i', Rule::unique('companies')->ignore($id)],
+            'primary_color' => ['regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
+            'secondary_color' => ['regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
         ]);
 
         try {
             $company = Company::findOrFail($id);
             $company->update([
-                'custom_url' => $request->slug,
+                'slug' => $request->slug,
                 'font_style' => $request->font,
                 'name' => $request->name,
                 'introduction_text' => $request->introduction,
-                'color_modification' => $request->color,
+                'primary_color' => $request->primary_color,
+                'secondary_color' => $request->secondary_color,
             ]);
+
+            if ($request->hasFile('logo')) {
+                $company->update([
+                    'logo' => $request->file('logo')->store('logos', 'public'),
+                ]);
+            }
 
             return redirect()->route('company.show', $company->user_id)->with('success', __('company.success_update'));
         }
         catch(Exception $e) {
            return redirect()->route('company.edit', $id)->with('error', __('company.fail_update'));
         }
+    }
+
+    public function showLandingPage($slug): View
+    {
+        $company = Company::where('slug', $slug)->first();
+        if(is_null($company)) {
+            abort(404);
+        }
+
+        return view('landingpage')->with(compact('company'));
     }
 }

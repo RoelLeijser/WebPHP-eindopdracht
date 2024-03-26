@@ -40,14 +40,15 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
+                            @role('zakelijke adverteerder')
+                                <x-dropdown-link :href="route('company.show', Auth::user()->id)">
+                                {{ __('company.title') }}
+                                </x-dropdown-link>
+                            @endrole
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('auth.log_out') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('company.show', Auth::user()->id)">
-                            {{ __('company.title') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
