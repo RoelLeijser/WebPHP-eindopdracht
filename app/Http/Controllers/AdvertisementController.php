@@ -10,11 +10,13 @@ class AdvertisementController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $advertisements = Advertisement::with('seller')->get();
+        $advertisements = Advertisement::with('seller')->paginate(10);
+
         return view('advertisements.index', compact('advertisements'));
     }
+
 
     /**
      * Show the form for creating a new resource.

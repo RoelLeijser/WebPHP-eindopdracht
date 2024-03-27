@@ -16,11 +16,15 @@
                         {{ __('dashboard.title') }}
                     </x-nav-link>
                     @role('admin')
-                        <x-nav-link :href="route('account.index')" :active="request()->routeIs('account.index')">
-                            {{ __('account.title') }}
-                        </x-nav-link>
+                    <x-nav-link :href="route('account.index')" :active="request()->routeIs('account.index')">
+                        {{ __('account.title') }}
+                    </x-nav-link>
                     @endrole
+                    <x-nav-link :href="route('advertisements.index')" :active="request()->routeIs('advertisements.index')">
+                        {{ __('advertisement.advertisements') }}
+                    </x-nav-link>
                 </div>
+
             </div>
 
             <!-- Settings Dropdown -->
@@ -46,8 +50,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('auth.log_out') }}
                             </x-dropdown-link>
@@ -89,8 +92,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('auth.log_out') }}
                     </x-responsive-nav-link>

@@ -4,7 +4,7 @@ return [
     "pickup" => "Pickup",
     "shipping" => "Shipping",
     "pickup_and_shipping" => "Pickup and Shipping",
-    "advertisement" => "Advertisement",
+    "advertisements" => "Advertisements",
     "for_sale" => "For Sale",
     "for_rent" => "For Rent",
     "title" => "Title",
@@ -13,6 +13,7 @@ return [
     "price" => "Price",
     "type" => "Type",
     "sell" => "Sell",
+    'buy' => 'Buy',
     "rent" => "Rent",
     "delivery" => "Delivery",
     "create_advertisement" => "Create Advertisement",
@@ -21,4 +22,5 @@ return [
     "delete_advertisement" => "Delete Advertisement",
     "show_advertisement" => "Show Advertisement",
     "back_to_advertisements" => "Back to Advertisements",
+    "share" => "Share",
 ];
