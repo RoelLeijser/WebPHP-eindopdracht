@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <div class="py-2 px-2">
-                                    <x-primary-button>{{ __('company.layout_button') }}</x-primary-button>
+                                    <x-primary-button dusk="update">{{ __('company.layout_button') }}</x-primary-button>
                                 </div>
                         </form>
                 </div>

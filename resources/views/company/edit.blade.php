@@ -15,34 +15,34 @@
                             <div class="grid grid-cols-2">
                                 <div class="py-2 px-2">
                                     <x-input-label class="py-2" for="name" :value="__('company.name')" />
-                                    <x-text-input class="w-full" name="name" :value="$company->name" />
+                                    <x-text-input dusk="name" class="w-full" name="name" :value="$company->name" />
                                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                 </div>
                                 <div class="py-2 px-2">
                                     <x-input-label class="py-2" for="slug" :value="__('company.slug')" />
-                                    <x-text-input class="w-full" name="slug" :value="$company->slug" />
+                                    <x-text-input dusk="slug" class="w-full" name="slug" :value="$company->slug" />
                                     <x-input-error :messages="$errors->get('slug')" class="mt-2" />
                                 </div>
                             </div>
                             <div class="grid grid-cols-3">
                                 <div class="py-2 px-2">
                                     <x-input-label class="py-2" for="font" :value="__('company.font')" />
-                                    <x-text-input class="w-full" name="font" :value="$company->font_style" />
+                                    <x-text-input dusk="font" class="w-full" name="font" :value="$company->font_style" />
                                     <x-input-error :messages="$errors->get('font')" class="mt-2" />
                                 </div>
                                 <div class="py-2 px-2">
                                     <x-input-label class="py-2" for="color" :value="__('company.color_primary')" />
-                                    <input type="color" name="primary_color" value="{{$company->primary_color}}"/>
+                                    <input dusk="primary_color" type="color" name="primary_color" value="{{$company->primary_color}}"/>
                                     <x-input-error :messages="$errors->get('primary_color')" class="mt-2" />
                                 </div>
                                 <div class="py-2 px-2">
                                     <x-input-label class="py-2" for="color" :value="__('company.color_secondary')" />
-                                    <input type="color" name="secondary_color" value="{{$company->secondary_color}}"/>
+                                    <input dusk="secondary_color" type="color" name="secondary_color" value="{{$company->secondary_color}}"/>
                                     <x-input-error :messages="$errors->get('secondary_color')" class="mt-2" />
                                 </div>
                                 <div class="py-2 px-2">
                                     <x-input-label class="py-2" for="logo" :value="__('company.logo')" />
-                                    <input type="file" name="logo" value="{{$company->logo}}"/>
+                                    <input dusk="file" type="file" name="logo" value="{{$company->logo}}"/>
                                     <x-input-error :messages="$errors->get('logo')" class="mt-2" />
                                 </div>
                                 @if(!is_null($company->logo))
@@ -54,11 +54,11 @@
                             <div>
                                 <div class="py-2 px-2">
                                     <x-input-label class="py-2" for="introduction" :value="__('company.introduction_text')" />
-                                    <textarea name="introduction" class="h-32 w-full">{{$company->introduction_text}}</textarea>
+                                    <textarea dusk="introduction" name="introduction" class="h-32 w-full">{{$company->introduction_text}}</textarea>
                                     <x-input-error :messages="$errors->get('introduction')" class="mt-2" />
                                 </div>
                                 <div class="py-2 px-2">
-                                    <x-primary-button>{{ __('company.update_button') }}</x-primary-button>
+                                    <x-primary-button dusk="update">{{ __('company.update_button') }}</x-primary-button>
                                 </div>
                             </div>
                         </form>
