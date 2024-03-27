@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'none_option' => 'None',
     'search' => 'Search',
     'pagination' => [
         'showing' => 'Showing',

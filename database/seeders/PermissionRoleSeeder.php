@@ -16,8 +16,10 @@ class PermissionRoleSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
+        Permission::create(['name' => 'contract accepted']);
         Permission::create(['name' => 'edit accounts']);
         Permission::create(['name' => 'delete accounts']);
+
 
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'basis gebruiker']);

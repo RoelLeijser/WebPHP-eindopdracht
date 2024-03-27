@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35093cf8f14e2f5450a467da29d535cd",
+    "content-hash": "7fe04177afe83d031fd8ea0777f9f6c3",
     "packages": [
         {
             "name": "brick/math",
@@ -500,6 +500,66 @@
                 }
             ],
             "time": "2023-10-06T06:47:41+00:00"
+        },
+        {
+            "name": "emotality/laravel-color",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/emotality/laravel-color.git",
+                "reference": "2ec68e03f45df6ba64ea2a83a9aa942c7af328db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/emotality/laravel-color/zipball/2ec68e03f45df6ba64ea2a83a9aa942c7af328db",
+                "reference": "2ec68e03f45df6ba64ea2a83a9aa942c7af328db",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "ext-json": "*",
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": ">=7.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Color": "Emotality\\LaravelColor\\Color"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Emotality\\LaravelColor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jean-Pierre Fourie",
+                    "email": "jp@emotality.com",
+                    "homepage": "https://emotality.com"
+                }
+            ],
+            "description": "A Laravel package to retrieve information from colors, convert and more.",
+            "homepage": "https://github.com/emotality/laravel-color",
+            "keywords": [
+                "color",
+                "hex",
+                "hsl",
+                "hsv",
+                "laravel",
+                "rgb"
+            ],
+            "support": {
+                "issues": "https://github.com/emotality/laravel-color/issues",
+                "source": "https://github.com/emotality/laravel-color/tree/1.2.1"
+            },
+            "time": "2023-10-15T19:54:39+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -6017,47 +6077,43 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v7.13.0",
+            "version": "v8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "dce7c4cc1c308bb18e95b2b3bf7d06d3f040a1f6"
+                "reference": "6a19c4c73717bc81bae52e0718d3b3b3fc0b7e7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/dce7c4cc1c308bb18e95b2b3bf7d06d3f040a1f6",
-                "reference": "dce7c4cc1c308bb18e95b2b3bf7d06d3f040a1f6",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/6a19c4c73717bc81bae52e0718d3b3b3fc0b7e7f",
+                "reference": "6a19c4c73717bc81bae52e0718d3b3b3fc0b7e7f",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-zip": "*",
-                "guzzlehttp/guzzle": "^7.2",
-                "illuminate/console": "^9.0|^10.0",
-                "illuminate/support": "^9.0|^10.0",
-                "nesbot/carbon": "^2.0",
-                "php": "^8.0",
+                "guzzlehttp/guzzle": "^7.5",
+                "illuminate/console": "^10.0|^11.0",
+                "illuminate/support": "^10.0|^11.0",
+                "php": "^8.1",
                 "php-webdriver/webdriver": "^1.9.0",
-                "symfony/console": "^6.0",
-                "symfony/finder": "^6.0",
-                "symfony/process": "^6.0",
+                "symfony/console": "^6.2|^7.0",
+                "symfony/finder": "^6.2|^7.0",
+                "symfony/process": "^6.2|^7.0",
                 "vlucas/phpdotenv": "^5.2"
             },
             "require-dev": {
-                "mockery/mockery": "^1.4.2",
-                "orchestra/testbench": "^7.33|^8.13",
+                "mockery/mockery": "^1.6",
+                "orchestra/testbench": "^8.19|^9.0",
                 "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^9.5.10|^10.0.1",
-                "psy/psysh": "^0.11.12"
+                "phpunit/phpunit": "^10.1|^11.0",
+                "psy/psysh": "^0.11.12|^0.12"
             },
             "suggest": {
                 "ext-pcntl": "Used to gracefully terminate Dusk when tests are running."
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "7.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Laravel\\Dusk\\DuskServiceProvider"
@@ -6087,9 +6143,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/dusk/issues",
-                "source": "https://github.com/laravel/dusk/tree/v7.13.0"
+                "source": "https://github.com/laravel/dusk/tree/v8.1.0"
             },
-            "time": "2024-02-23T22:29:53+00:00"
+            "time": "2024-03-25T16:58:32+00:00"
         },
         {
             "name": "laravel/pint",
