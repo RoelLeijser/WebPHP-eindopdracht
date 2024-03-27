@@ -8,13 +8,13 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8 dark:bg-gray-800 dark:text-white flex gap-4">
-                <div class="">
-                    <div class="mt-4 max-w-3xl w-full">
-                        <img src=" {{ $advertisement->image }}" alt="{{ $advertisement->title }}" class="w-full h-full object-cover mb-4">
+                <div class="w-full">
+                    <div class=" mt-4 max-w- w-full">
+                        <img src="{{ $advertisement->image }}" alt="{{ $advertisement->title }}" class="w-full h-full object-cover mb-4 rounded-md">
                     </div>
                     <p class="text-lg">{{ $advertisement->description }}</p>
                 </div>
-                <div class="mt-2 w-full flex flex-col gap-4">
+                <div class="mt-2 w-2/5 flex flex-col gap-4">
                     <h1 class="text-3xl font-bold">{{ $advertisement->title }}</h1>
                     <a href="{{ route('advertisements.index', $advertisement->seller->id) }}" class="text-blue-500 hover:underline">{{ $advertisement->seller->name }}</a>
                     <span class="text-5xl">&euro;&nbsp;{{ $advertisement->price }}</span>

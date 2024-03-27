@@ -21,7 +21,7 @@
                         <a href="{{ route('advertisements.show', $advertisement->id) }}" class="absolute inset-0 z-10"></a>
                         <img src="{{ $advertisement->image }}" alt="{{ $advertisement->title }}" class="w-48 h-40 rounded-lg">
 
-                        <div class="flex justify-between">
+                        <div class="flex justify-between w-full">
                             <div class="flex flex-col ml-3 justify-between">
                                 <div>
                                     <div class="mb-1">

@@ -33,17 +33,30 @@ class AdvertisementController extends Controller
             'title' => 'required',
             'description' => 'required',
             'price' => 'required',
-            'image' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'type' => 'required',
             'delivery' => 'required',
         ]);
+
+        //more more than four with each type per person
+        $advertisementCount = Advertisement::where('seller_id', auth()->id())
+            ->where('type', $request->type)
+            ->count();
+
+        if ($advertisementCount >= 4) {
+            return redirect()->route('advertisements.create')
+                ->with('error', 'You can only have four advertisements of each type.');
+        }
+
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
 
         Advertisement::create([
             'title' => $request->title,
             'description' => $request->description,
             'seller_id' => auth()->id(),
             'price' => $request->price,
-            'image' => $request->image,
+            'image' => '/images/' . $imageName,
             'type' => $request->type,
             'delivery' => $request->delivery,
         ]);
