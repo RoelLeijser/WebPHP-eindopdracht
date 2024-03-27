@@ -6,6 +6,8 @@ return [
         'showing' => 'Showing',
         'to' => 'to',
         'of' => 'of',
-        'results' => 'results'
-    ]
+        'results' => 'results',
+    ],
+    'yesterday' => 'Yesterday',
+    'today' => 'Today',
 ];

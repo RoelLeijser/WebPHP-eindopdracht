@@ -59,7 +59,7 @@ class AdvertisementController extends Controller
         Advertisement::findOrFail($id);
 
         return view('advertisements.show', [
-            'advertisement' => Advertisement::findOrFail($id),
+            'advertisement' => Advertisement::with('seller')->findOrFail($id),
         ]);
     }
 

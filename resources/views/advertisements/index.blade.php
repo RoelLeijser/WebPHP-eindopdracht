@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Advertisements') }}
+            {{ __('advertisement.advertisement') }}
         </h2>
     </x-slot>
 
@@ -27,18 +27,18 @@
                                     <div class="mb-1">
                                         <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">{{ $advertisement->title }}</h2>
                                         <span class="text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $advertisement->type == 'sell' ? __('For Sale') : __('For Rent') }}
+                                            {{ $advertisement->type == 'sell' ? __('advertisement.for_sale') : __('advertisement.for_rent') }}
                                         </span>
                                     </div>
                                     <p class="max-w-2xl text-gray-600 dark:text-gray-300">{{ $advertisement->description }}</p>
                                 </div>
 
                                 @if ($advertisement->delivery == 'pickup')
-                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('Pickup') }}</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('advertisement.pickup') }}</span>
                                 @elseif ($advertisement->delivery == 'shipping')
-                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('Shipping') }}</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('advertisement.shipping') }}</span>
                                 @elseif ($advertisement->delivery == 'pickup_shipping')
-                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('Pickup and Shipping') }}</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('advertisement.pickup_and_shipping') }}</span>
                                 @endif
                             </div>
                             <div class="flex gap-3 max-w-52">
@@ -46,9 +46,9 @@
                                     <data value="{{ $advertisement->price }}" class="text-lg font-bold text-gray-800 dark:text-gray-200">&euro;&nbsp;{{ $advertisement->price }}</data>
                                     <p class="text-sm text-gray-500 dark:text-gray-400">
                                         @if ($advertisement->created_at->isToday())
-                                        {{ __('Today') }}
+                                        {{ __('general.today') }}
                                         @elseif ($advertisement->created_at->isYesterday())
-                                        {{ __('Yesterday') }}
+                                        {{ __('general.yesterday') }}
                                         @else
                                         {{ $advertisement->created_at->format('d/m/Y') }}
                                         @endif
