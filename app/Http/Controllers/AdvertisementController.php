@@ -96,18 +96,32 @@ class AdvertisementController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'price' => 'required',
-            'image' => 'required',
+            'price' => 'required|numeric|min:0',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'type' => 'required',
             'delivery' => 'required',
         ]);
+        $advertisementCount = Advertisement::where('seller_id', auth()->id())
+            ->where('type', $request->type)
+            ->count();
+
+        if ($advertisementCount >= 4) {
+            return redirect()->route('advertisements.edit', $advertisement->id)
+                ->with('error', 'You can only have four advertisements of each type.');
+        }
+
+        if ($request->hasFile('image')) {
+            $imageName = "/images/" . time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+        } else {
+            $imageName = $advertisement->image;
+        }
 
         $advertisement->update([
             'title' => $request->title,
             'description' => $request->description,
-            'seller_id' => auth()->id(),
             'price' => $request->price,
-            'image' => $request->image,
+            'image' => $imageName,
             'type' => $request->type,
             'delivery' => $request->delivery,
         ]);

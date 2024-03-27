@@ -8,6 +8,15 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                @if ($errors->any())
+                <div class="bg-red-500 dark:bg-red-600 text-white p-4 rounded-lg mb-6">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <form action="{{ route('advertisements.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="flex flex-col gap-4">
@@ -25,7 +34,7 @@
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="price" class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.price') }}</label>
-                            <input type="number" name="price" id="price" class="p-2 border border-gray-300 dark:border-gray-700 rounded-lg" required>
+                            <input type="number" min=0 name="price" id="price" class="p-2 border border-gray-300 dark:border-gray-700 rounded-lg" required>
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="type" class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.type') }}</label>
