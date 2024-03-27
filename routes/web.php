@@ -50,3 +50,4 @@ Route::get('set-locale/{locale}', function ($locale) {
 })->name('locale.setting');
 
 Route::resource('advertisements', AdvertisementController::class);
+Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');

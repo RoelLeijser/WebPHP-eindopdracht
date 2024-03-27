@@ -23,4 +23,8 @@ return [
     "show_advertisement" => "Show Advertisement",
     "back_to_advertisements" => "Back to Advertisements",
     "share" => "Share",
+    "auction" => "Auction",
+    "place_bid" => "Place Bid",
+    "biddings" => "Biddings",
+
 ];

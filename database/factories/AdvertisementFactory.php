@@ -24,7 +24,7 @@ class AdvertisementFactory extends Factory
             'description' => fake()->paragraph(),
             'price' => fake()->randomFloat(2, 0, 100),
             'image' => fake()->imageUrl(),
-            'type' => fake()->randomElement(['sell', 'rental']),
+            'type' => fake()->randomElement(['sell', 'rental', 'auction']),
             'seller_id' => fake()->randomElement(User::pluck('id')->toArray()),
             'delivery' => fake()->randomElement(['pickup', 'shipping', 'pickup_shipping']),
         ];

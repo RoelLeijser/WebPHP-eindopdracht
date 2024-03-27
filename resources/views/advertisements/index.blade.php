@@ -31,7 +31,13 @@
                                             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
                                                 {{ $advertisement->title }}</h2>
                                             <span class="text-sm text-gray-500 dark:text-gray-400">
-                                                {{ $advertisement->type == 'sell' ? __('advertisement.for_sale') : __('advertisement.for_rent') }}
+                                                @if ($advertisement->type == 'sell')
+                                                    {{ __('advertisement.for_sale') }}
+                                                @elseif ($advertisement->type == 'rental')
+                                                    {{ __('advertisement.for_rent') }}
+                                                @elseif ($advertisement->type == 'auction')
+                                                    {{ __('advertisement.auction') }}
+                                                @endif
                                             </span>
                                         </div>
                                         <p class="max-w-2xl text-gray-600 dark:text-gray-300">

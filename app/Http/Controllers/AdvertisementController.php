@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Advertisement;
+use \Illuminate\Validation\ValidationException;
 
 class AdvertisementController extends Controller
 {
@@ -71,12 +72,15 @@ class AdvertisementController extends Controller
      */
     public function show(string $id)
     {
-        Advertisement::findOrFail($id);
+        $advertisement = Advertisement::with(['bids' => function ($query) {
+            $query->orderBy('amount', 'asc'); // Orders bids by highest bid amount
+        }, 'seller'])->findOrFail($id);
 
         return view('advertisements.show', [
-            'advertisement' => Advertisement::with('seller')->findOrFail($id),
+            'advertisement' => $advertisement
         ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -139,5 +143,40 @@ class AdvertisementController extends Controller
         Advertisement::findOrFail($id)->delete();
 
         return redirect()->route('advertisements.index');
+    }
+
+    /**
+     * Add a bid to the advertisement.
+     */
+    public function bid(Request $request, string $id)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+        if (Advertisement::findOrFail($id)->seller_id === auth()->id()) {
+            return redirect()->route('advertisements.show', $id)
+                ->withErrors('You can not bid on your own advertisement.');
+        }
+
+        $highestBid = Advertisement::findOrFail($id)->bids()->max('amount')
+            ?? Advertisement::findOrFail($id)->price;
+
+        if ($request->amount <= $highestBid) {
+            return redirect()->route('advertisements.show', $id)
+                ->withErrors('Your bid must be higher than the current highest bid.');
+        }
+
+        $existingBid = Advertisement::findOrFail($id)->bids()->where('user_id', auth()->id())->first();
+        if ($existingBid) {
+            $existingBid->delete();
+        }
+
+        Advertisement::findOrFail($id)->bids()->create([
+            'user_id' => auth()->id(),
+            'amount' => $request->amount,
+        ]);
+
+        return redirect()->route('advertisements.show', $id);
     }
 }
