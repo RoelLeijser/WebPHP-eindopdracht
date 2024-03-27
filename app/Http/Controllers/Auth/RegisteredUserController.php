@@ -23,7 +23,6 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         $roles = Role::where('name', '<>', 'admin')->pluck('name');
-
         return view('auth.register')->with('roles', $roles);
     }
 
@@ -46,6 +45,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
         $user->assignRole($request->role);
 
         event(new Registered($user));

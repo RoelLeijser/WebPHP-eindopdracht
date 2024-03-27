@@ -23,7 +23,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
     ];
 
     /**
@@ -49,5 +48,21 @@ class User extends Authenticatable
     public function company()
     {
         return $this->hasOne(Company::class);
+    }
+
+    public function scopeFilter($query, array $filters) 
+    {
+        $query->when($filters['search'] ?? false, function($query, $search) {
+            $query
+            ->where('name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%');
+        });
+
+        $query->when($filters['role'] ?? false, function ($query) use ($filters) {
+            $role = $filters['role'];
+            $query->whereHas('roles', function ($query) use ($role) {
+                $query->where('name', $role);
+            });
+        });
     }
 }

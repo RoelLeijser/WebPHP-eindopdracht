@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function() {
     Route::resource('company', CompanyController::class, ['except' => ['index', 'destroy']]);
 });
@@ -43,6 +45,12 @@ Route::group(['middleware' => ['auth', 'can:contract accepted']], function() {
 });
 
 Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');
+
+
+Route::group(['middleware' => ['auth', 'role:admin']], function() {
+    Route::resource('account', AccountController::class, ['except' => ['create', 'store', 'show']]);
+});
+
 
 //Language settings
 Route::get('set-locale/{locale}', function ($locale) {

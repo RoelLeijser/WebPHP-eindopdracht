@@ -25,7 +25,6 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $roles = Role::pluck('name')->toArray();
 
         return [
             'name' => fake()->name(),
@@ -51,6 +50,9 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             $roles = Role::all()->pluck('name');
             $role = fake()->randomElement($roles);
+            if($role !== 'admin') {
+                $user->givePermissionTo(['edit accounts', 'delete accounts']);
+            }
             $user->assignRole($role);
         });
     }

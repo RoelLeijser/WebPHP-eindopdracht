@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         User::factory(15)->create();
         Company::factory(5)->create();
         Layout::factory(5)->create();
+
     }
 }
