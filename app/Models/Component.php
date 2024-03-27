@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class Component extends Model
 {
     use HasFactory;
 
@@ -13,13 +13,4 @@ class Company extends Model
 
     public $timestamps = false;
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function layout()
-    {
-        return $this->hasOne(Layout::class);
-    }
 }

@@ -17,6 +17,11 @@ return [
     'update_button' => 'Change settings',
     'fail_update' => 'Failed updating the settings',
     'success_update' => 'The settings has been changed.',
+    'layout_update' => 'Edit page layout',
+    'layout_button' => 'Update layout',
+    'first_component' => 'What to show for first component:',
+    'second_component' => 'What to show for second component:',
+    'third_component' => 'What to show for third component:',
     'page' => [
         'adverts' => 'Check these adverts',
         'reviews' => 'Reviews',

@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Models\Layout;
+use App\Models\Component;
 use Illuminate\Database\Eloquent\Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Rules\ComponentValidation;
 
 class CompanyController extends Controller
 {
@@ -32,9 +35,16 @@ class CompanyController extends Controller
 
         $user_id = Auth::user()->id;
 
-        Company::create([
+        $company = Company::create([
             'name' => $request->name,
             'user_id' => $user_id,
+        ]);
+
+        Layout::create([
+            'first_component' => 'introduction',
+            'second_component' => 'adverts',
+            'third_component' => 'reviews',
+            'company_id' => $company->id,
         ]);
 
         return redirect()->route('company.show', $user_id)->with('success', __('company.company_created'));
@@ -102,11 +112,43 @@ class CompanyController extends Controller
 
     public function showLandingPage($slug): View
     {
-        $company = Company::where('slug', $slug)->first();
+        $company = Company::where('slug', $slug)->with('layout')->first();
+
         if(is_null($company)) {
             abort(404);
         }
 
         return view('landingpage')->with(compact('company'));
+    }
+
+    public function editPageLayout($id): View
+    {
+        $components = Component::all()->pluck('name');
+        $layout = Layout::where('company_id', $id)->first();
+        return view('company.layout')->with(compact('layout', 'components'));
+    }
+
+    public function updatePageLayout(Request $request, string $id): RedirectResponse
+    {
+        $request->validate([
+            'first' => [new ComponentValidation($request->all())],
+            'second' => [new ComponentValidation($request->all())],
+            'third' => [new ComponentValidation($request->all())],
+        ]);
+
+        try {
+            $layout = Layout::findOrFail($id);
+            $company = Company::where('id', $layout->company_id)->first();
+            $layout->update([
+                'first_component' => $request->first,
+                'second_component' => $request->second,
+                'third_component' => $request->third,
+            ]);
+
+            return redirect()->route('company.show', $company->user_id)->with('success', __('company.success_update'));
+        }
+        catch(Exception $e) {
+           return redirect()->route('company.edit', $company->id)->with('error', __('company.fail_update'));
+        }
     }
 }

@@ -11,7 +11,6 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex justify-center">
                         <h1 class="text-xl">{{$company->name}}</h1>
-                        <hr>
                     </div>
                     <div>
                         @can('contract accepted')
@@ -38,9 +37,15 @@
                                 <h2 class="text-lg"><strong>{{ __('company.introduction_text') }}</strong></h2>
                                 <p class="border border-gray-200 mt-2 p-2">{{$company->introduction_text}}</p>
                             </div>
-                            <div class="py-2">
-                                <a href="{{route('company.edit', $company->id)}}"><x-primary-button>{{ __('company.update_button') }}</x-primary-button></a>
+                            <div class="grid grid-cols-2">
+                                <div class="py-2">
+                                    <a href="{{route('company.edit', $company->id)}}"><x-primary-button>{{ __('company.update_button') }}</x-primary-button></a>
+                                </div>
+                                <div class="py-2 place-self-end py-2">
+                                    <a href="{{route('company.edit.layout', $company->id)}}"><x-primary-button>{{ __('company.layout_button') }}</x-primary-button></a>
+                                </div>
                             </div>
+
                             </div>
                         @endcan
                         @if(!auth()->user()->can('contract accepted'))

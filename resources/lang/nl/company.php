@@ -17,6 +17,11 @@ return [
     'update_button' => 'Verander instellingen',
     'fail_update' => 'Er is iets misgegaan met het wijzigen van de instellingen',
     'success_update' => 'De instellingen zijn gewijzigd',
+    'layout_update' => 'Wijzig pagina layout',
+    'layout_button' => 'Wijzig layout',
+    'first_component' => 'Wat moet er getoond worden bij de eerste component:',
+    'second_component' => 'Wat moet er getoond worden bij de tweede component:',
+    'third_component' => 'Wat moet er getoond worden bij de derde component:',
     'page' => [
         'adverts' => 'Bekijk de advertenties',
         'reviews' => 'Reviews',

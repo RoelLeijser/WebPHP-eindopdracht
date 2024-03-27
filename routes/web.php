@@ -38,6 +38,8 @@ Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function
 Route::group(['middleware' => ['auth', 'can:contract accepted']], function() {
     Route::get('company/{company}/edit', [CompanyController::class, 'edit'])->name('company.edit');
     Route::put('company/{company}', [CompanyController::class, 'update'])->name('company.update');
+    Route::get('company/{company}/layout', [CompanyController::class, 'editPageLayout'])->name('company.edit.layout');
+    Route::put('company/{company}/layout', [CompanyController::class, 'updatePageLayout'])->name('company.update.layout');
 });
 
 Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');
