@@ -13,7 +13,7 @@ class AdvertisementController extends Controller
      */
     public function index(Request $request)
     {
-        $advertisements = Advertisement::with('seller')->paginate(10);
+        $advertisements = Advertisement::orderBy('created_at', 'desc')->with('seller')->paginate(10);
 
         return view('advertisements.index', compact('advertisements'));
     }
