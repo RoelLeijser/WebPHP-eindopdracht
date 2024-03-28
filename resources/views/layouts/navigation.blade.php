@@ -49,6 +49,10 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <!-- Favorites -->
+                        <x-dropdown-link :href="route('account.favorites')">
+                            {{ __('account.favorites') }}
+                        </x-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

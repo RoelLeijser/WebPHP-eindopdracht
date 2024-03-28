@@ -21,5 +21,7 @@ return [
         'button' => 'Update account',
         'success' => 'Account has been updated with permissions and a role.',
         'fail' => 'Something went wrong when updating the account, pls try again',
-    ]
+    ],
+    'favorites' => 'Favorite advertisements',
+    "no_favorites" => "You don't have any favorite advertisements.",
 ];

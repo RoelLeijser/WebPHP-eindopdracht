@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advertisement;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Exception;
@@ -12,12 +13,14 @@ use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use App\Rules\RoleExist;
 use App\Rules\PermissionExist;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
-    public function index() : View
+    public function index(): View
     {
-        $sort = request('sort','asc');
+        $sort = request('sort', 'asc');
 
         $roles = Role::all()->pluck('name');
         $accounts = User::filter(request(['search', 'role']))->orderBy('name', $sort)->with('roles')->paginate(5);
@@ -26,7 +29,7 @@ class AccountController extends Controller
         return view('account.index')->with(compact('accounts', 'nextSort', 'roles'));
     }
 
-    public function edit($id) : View
+    public function edit($id): View
     {
         $account = User::findOrFail($id);
         $roles = Role::all()->pluck('name');
@@ -48,22 +51,27 @@ class AccountController extends Controller
             $account->syncPermissions($request->permissions);
 
             return redirect()->route('account.index')->with('success', __('account.edit.success'));
-        }
-        catch(Exception $e) {
-           dd($e);
-           return redirect()->route('account.edit', $id)->with('error', __('account.edit.fail'));
+        } catch (Exception $e) {
+            return redirect()->route('account.edit', $id)->with('error', __('account.edit.fail'));
         }
     }
 
     public function destroy($id): RedirectResponse
-    {    
+    {
         try {
             $user = User::findOrFail($id);
             $user->delete();
             return redirect()->route('account.index')->with('success', __('account.user_deleted'));
-
         } catch (ModelNotFoundException $e) {
             return redirect()->route('account.index')->with('error', __('account.user_not_found'));
         }
+    }
+
+    // favorites
+    public function favorites(): View
+    {
+        $account = Auth::user();
+        $advertisements = Advertisement::whereIn('id', $account->favorites->pluck('advertisement_id'))->paginate(5);
+        return view('account.favorites')->with(compact('advertisements'));
     }
 }

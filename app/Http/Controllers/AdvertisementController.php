@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Advertisement;
+use Illuminate\Support\Facades\Auth;
 use \Illuminate\Validation\ValidationException;
+use App\Models\Favorite;
 
 class AdvertisementController extends Controller
 {
@@ -77,7 +79,8 @@ class AdvertisementController extends Controller
         }, 'seller'])->findOrFail($id);
 
         return view('advertisements.show', [
-            'advertisement' => $advertisement
+            'advertisement' => $advertisement,
+            'isFavorite' => Auth::user()->favorites->contains('advertisement_id', $id),
         ]);
     }
 
@@ -176,6 +179,28 @@ class AdvertisementController extends Controller
             'user_id' => auth()->id(),
             'amount' => $request->amount,
         ]);
+
+        return redirect()->route('advertisements.show', $id);
+    }
+
+    /**
+     * Favorite the advertisement.
+     */
+    public function favorite(string $id)
+    {
+
+        $existingFavorite = Favorite::where('user_id', auth()->id())
+            ->where('advertisement_id', $id)
+            ->first();
+
+        if ($existingFavorite) {
+            $existingFavorite->delete();
+        } else {
+            Favorite::create([
+                'user_id' => auth()->id(),
+                'advertisement_id' => $id,
+            ]);
+        }
 
         return redirect()->route('advertisements.show', $id);
     }

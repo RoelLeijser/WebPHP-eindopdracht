@@ -61,5 +61,9 @@ Route::get('set-locale/{locale}', function ($locale) {
 
 Route::resource('advertisements', AdvertisementController::class);
 Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
+Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
+
+//get favorite advertisements per account
+Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
 
 Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');
