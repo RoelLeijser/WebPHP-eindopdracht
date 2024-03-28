@@ -34,9 +34,11 @@ class CompanyFactory extends Factory
 
     public function configure()
     {
+        //TODO: change factory for duplicating users for different companies
+
         return $this->afterCreating(function (Company $company) {
             $user = User::findOrFail($company->user_id);
-            $user->assignRole('zakelijke adverteerder');
+            $user->syncRoles('zakelijke adverteerder');
             $user->givePermissionTo(['contract accepted']);
         });
     }

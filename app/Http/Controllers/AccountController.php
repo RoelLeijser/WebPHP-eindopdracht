@@ -26,6 +26,12 @@ class AccountController extends Controller
         return view('account.index')->with(compact('accounts', 'nextSort', 'roles'));
     }
 
+    public function show($id) : View
+    {
+        $account = User::findOrFail($id);
+        return view('account.show')->with(compact('account'));
+    }
+
     public function edit($id) : View
     {
         $account = User::findOrFail($id);

@@ -26,15 +26,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function() {
+    Route::resource('company', CompanyController::class, ['except' => ['index']]);
 });
 
-
-Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function() {
-    Route::resource('company', CompanyController::class, ['except' => ['index', 'destroy']]);
+Route::group(['middleware' => ['auth', 'role:admin']], function() {
+    Route::resource('account', AccountController::class, ['except' => ['create', 'store']]);
+    Route::delete('company/{company}/delete', [CompanyController::class, 'destroy'])->name('company.destroy');
 });
 
 Route::group(['middleware' => ['auth', 'can:contract accepted']], function() {
@@ -44,12 +42,8 @@ Route::group(['middleware' => ['auth', 'can:contract accepted']], function() {
     Route::put('company/{company}/layout', [CompanyController::class, 'updatePageLayout'])->name('company.update.layout');
 });
 
+
 Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');
-
-
-Route::group(['middleware' => ['auth', 'role:admin']], function() {
-    Route::resource('account', AccountController::class, ['except' => ['create', 'store', 'show']]);
-});
 
 
 //Language settings

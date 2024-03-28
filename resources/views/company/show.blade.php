@@ -5,7 +5,15 @@
         </h2>
     </x-slot>
 
+    
+
     <div class="py-12">
+        @if(session()->has('success'))
+            <x-flash-message class="bg-green-400 dark:bg-green-800">{{ session('success') }}</x-flash-message>
+        @elseif(session()->has('error'))
+            <x-flash-message class="bg-red-100 dark:bg-red-100">{{ session('error') }}</x-flash-message>
+        @endif
+
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -19,7 +27,7 @@
                                     <h2 class="text-lg">
                                         <strong>{{ __('company.slug') }}</strong>
                                     @if(!is_null($company->slug))
-                                        <a class="hover:text-blue-800" href="{{route('landingpage', $company->slug)}}">{{$company->slug}}</a></h2>
+                                        <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{route('landingpage', $company->slug)}}">{{$company->slug}}</a></h2>
                                     @endif
                             </div>
                             <div class="py-2"> 

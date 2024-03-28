@@ -21,5 +21,11 @@ return [
         'button' => 'Wijzig account',
         'success' => 'Het account is gewijzigd.',
         'fail' => 'Er is iets fout gegaan met het wijzigen, probeer het opnieuw',
-    ]
+    ],
+    'show' => [
+        'title' => 'Accountgegevens',
+        'role' => 'Rol: ',
+        'company' => 'Bedrijf: ',
+        'slug' => 'Landingspagina: ',
+    ],
 ];

@@ -21,5 +21,11 @@ return [
         'button' => 'Update account',
         'success' => 'Account has been updated with permissions and a role.',
         'fail' => 'Something went wrong when updating the account, pls try again',
-    ]
+    ],
+    'show' => [
+        'title' => 'Account information',
+        'role' => 'Role: ',
+        'company' => 'Company: ',
+        'slug' => 'Link to company: ',
+    ],
 ];

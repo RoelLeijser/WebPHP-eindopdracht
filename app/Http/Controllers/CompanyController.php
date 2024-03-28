@@ -72,6 +72,18 @@ class CompanyController extends Controller
         return view('company.edit')->with(compact('company'));
     }
 
+    public function destroy($id): RedirectResponse
+    {    
+        try {
+            $company = Company::findOrFail($id);
+            $company->delete();
+            return redirect()->route('account.index')->with('success', __('company.company_deleted'));
+
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('account.index')->with('error', __('company.company_not_found'));
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      */
