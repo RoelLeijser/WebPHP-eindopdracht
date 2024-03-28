@@ -49,7 +49,6 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             $roles = Role::all()->pluck('name');
-
             $role = fake()->randomElement($roles);
             if($role !== 'admin') {
                 $user->givePermissionTo(['edit accounts', 'delete accounts']);
