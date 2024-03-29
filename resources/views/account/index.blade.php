@@ -54,7 +54,7 @@
                                             {{ $account->email }}
                                         </x-table-cell>
                                         <x-table-cell>
-                                            <a href="{{ route('account.show', $account->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $account->name }}</a>
+                                            <a dusk="name" href="{{ route('account.show', $account->id) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $account->name }}</a>
                                         </x-table-cell>
                                         <x-table-cell>
                                             {{ ucWords($account->roles->first()->name) }}

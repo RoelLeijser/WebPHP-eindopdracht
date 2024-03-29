@@ -24,7 +24,7 @@
                             @if($account->roles->first()->name == 'zakelijke adverteerder')
                                 <div class="flex justify-end px-3 py-4">
                                     <div class="py-2 px-2">
-                                        <a href="{{ route('contract.export', $account->id)}}"><x-secondary-button>{{__('contract.export')}}</x-secondary-button></a>
+                                        <a dusk="export" href="{{ route('contract.export', $account->id)}}"><x-secondary-button>{{__('contract.export')}}</x-secondary-button></a>
                                     </div>
                                     <div class="py-2 px-2">
                                         <form method="post" action="{{route('contract.verify', $account->id)}}" enctype="multipart/form-data">
