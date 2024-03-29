@@ -26,4 +26,10 @@ return [
         'adverts' => 'Bekijk de advertenties',
         'reviews' => 'Reviews',
     ],
+    'api_keys' => 'API-sleutels',
+    'create_api_key_button' => 'Maak API-sleutel aan',
+    'create_api_key_placeholder' => 'Naam van API-sleutel',
+    'api_token_created' => 'API-token is aangemaakt',
+    'api_token_deleted' => 'API-token is verwijderd',
+
 ];
