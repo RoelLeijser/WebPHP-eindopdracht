@@ -28,18 +28,16 @@ class CompanyFactory extends Factory
             'font_style' => null,
             'primary_color' => fake()->hexcolor,
             'secondary_color' => fake()->hexcolor,
-            'user_id' => fake()->randomElement(User::pluck('id')),
+            'user_id' => fake()->unique()->randomElement(User::pluck('id')),
         ];
     }
 
     public function configure()
     {
-        //TODO: change factory for duplicating users for different companies
 
         return $this->afterCreating(function (Company $company) {
             $user = User::findOrFail($company->user_id);
             $user->syncRoles('zakelijke adverteerder');
-            $user->givePermissionTo(['contract accepted']);
         });
     }
 }

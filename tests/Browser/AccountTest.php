@@ -84,7 +84,7 @@ class AccountTest extends DuskTestCase
             $browser->loginAs($user)->visit('/account')
                 ->assertPathIs('/account')
                 ->press('@delete')
-                ->assertSee('9 results');
+                ->assertSee('The user has been deleted');
         });
     }
 

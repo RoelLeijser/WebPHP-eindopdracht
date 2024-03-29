@@ -12,6 +12,8 @@ return [
     'user_not_found' => 'The user cannot be found',
     'role_filter' => 'Select role',
     'null_results' => 'No accounts where found',
+    'contract_success' => 'We have successfully uploaded the contract',
+    'contract_fail' => 'We failed uploading the contract check if contract is signed',
     'edit' => [
         'title' => 'Edit account',
         'name' => 'Name: ',

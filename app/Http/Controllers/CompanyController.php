@@ -92,7 +92,7 @@ class CompanyController extends Controller
 
         $request->validate([
             'name' => ['required', 'min:3', 'max:255', Rule::unique('companies')->ignore($id)],
-            'logo' => ['image', 'mimes:jpeg,jpg'],
+            'logo' => ['image', 'mimes:jpeg,jpg', 'max:20000'],
             'slug' => ['max:55', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/i', Rule::unique('companies')->ignore($id)],
             'primary_color' => ['regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],
             'secondary_color' => ['regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i'],

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContractController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -33,6 +34,8 @@ Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function
 Route::group(['middleware' => ['auth', 'role:admin']], function() {
     Route::resource('account', AccountController::class, ['except' => ['create', 'store']]);
     Route::delete('company/{company}/delete', [CompanyController::class, 'destroy'])->name('company.destroy');
+    Route::get('contract/{account}', [ContractController::class, 'export'])->name('contract.export');
+    Route::put('contract/{account}', [ContractController::class, 'verify'])->name('contract.verify');
 });
 
 Route::group(['middleware' => ['auth', 'can:contract accepted']], function() {
@@ -41,7 +44,6 @@ Route::group(['middleware' => ['auth', 'can:contract accepted']], function() {
     Route::get('company/{company}/layout', [CompanyController::class, 'editPageLayout'])->name('company.edit.layout');
     Route::put('company/{company}/layout', [CompanyController::class, 'updatePageLayout'])->name('company.update.layout');
 });
-
 
 Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');
 
