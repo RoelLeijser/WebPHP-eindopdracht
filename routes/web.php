@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth', 'can:contract accepted']], function () {
     Route::put('company/{company}', [CompanyController::class, 'update'])->name('company.update');
     Route::get('company/{company}/layout', [CompanyController::class, 'editPageLayout'])->name('company.edit.layout');
     Route::put('company/{company}/layout', [CompanyController::class, 'updatePageLayout'])->name('company.update.layout');
+    Route::post('company/{company}/createApiKey', [CompanyController::class, 'createApiToken'])->name('company.createApiKey');
+    Route::delete('company/{company}/deleteApiKey', [CompanyController::class, 'deleteApiToken'])->name('company.deleteApiKey');
 });
 
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
@@ -63,7 +65,6 @@ Route::resource('advertisements', AdvertisementController::class);
 Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
 Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
 
-//get favorite advertisements per account
 Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
 
 Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');

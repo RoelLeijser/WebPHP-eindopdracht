@@ -143,6 +143,12 @@ class AdvertisementController extends Controller
      */
     public function destroy(string $id)
     {
+        //delete image
+        $image = Advertisement::findOrFail($id)->image;
+        if (file_exists(public_path($image))) {
+            unlink(public_path($image));
+        }
+
         Advertisement::findOrFail($id)->delete();
 
         return redirect()->route('advertisements.index');
