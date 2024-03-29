@@ -73,7 +73,7 @@
                             <form action="{{ route('advertisements.bid', [$advertisement->id]) }}" method="POST"
                                 class="flex gap-4 justify-between">
                                 @csrf
-                                <input type="text" name="amount" class="mt-2 w-1/2" placeholder="Amount">
+                                <input type="text" name="amount" class="mt-2 w-1/2">
                                 <button type="submit"
                                     class="bg-blue-500 text-white px-4 py-2 rounded-full mt-2">{{ __('advertisement.place_bid') }}</button>
                             </form>
