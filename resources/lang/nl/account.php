@@ -21,5 +21,7 @@ return [
         'button' => 'Wijzig account',
         'success' => 'Het account is gewijzigd.',
         'fail' => 'Er is iets fout gegaan met het wijzigen, probeer het opnieuw',
-    ]
+    ],
+    'favorites' => 'Favoriete advertenties',
+    "no_favorites" => "U heeft geen favoriete advertenties.",
 ];

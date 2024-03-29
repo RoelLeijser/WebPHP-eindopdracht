@@ -26,4 +26,9 @@ return [
         'adverts' => 'Check these adverts',
         'reviews' => 'Reviews',
     ],
+    'api_keys' => 'API keys',
+    'create_api_key_button' => 'Create API key',
+    'create_api_key_placeholder' => 'API key name',
+    'api_token_created' => 'API token has been created',
+    'api_token_deleted' => 'API token has been deleted',
 ];

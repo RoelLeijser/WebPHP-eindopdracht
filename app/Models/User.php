@@ -50,12 +50,12 @@ class User extends Authenticatable
         return $this->hasOne(Company::class);
     }
 
-    public function scopeFilter($query, array $filters) 
+    public function scopeFilter($query, array $filters)
     {
-        $query->when($filters['search'] ?? false, function($query, $search) {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
             $query
-            ->where('name', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%');
+                ->where('name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
         });
 
         $query->when($filters['role'] ?? false, function ($query) use ($filters) {
@@ -64,5 +64,10 @@ class User extends Authenticatable
                 $query->where('name', $role);
             });
         });
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 }
