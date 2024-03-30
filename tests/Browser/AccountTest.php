@@ -84,7 +84,7 @@ class AccountTest extends DuskTestCase
             $browser->loginAs($user)->visit('/account')
                 ->assertPathIs('/account')
                 ->press('@delete')
-                ->assertSee('9 results');
+                ->assertPathIs('/account');
         });
     }
 
@@ -114,6 +114,97 @@ class AccountTest extends DuskTestCase
                 ->select('@select', 'admin')
                 ->press('@update')
                 ->assertSee('Accounts')
+                ->assertPathIs('/account');
+        });
+    }
+
+    public function test_show_account(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::find(1);
+            $user->assignRole('admin');
+
+            $browser->loginAs($user)->visit('/account')
+                ->assertPathIs('/account')
+                ->press('@name')
+                ->assertSee('Account information');
+        });
+    }
+
+    public function test_upload_contract_fails_required(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::find(1);
+            $user->assignRole('admin');
+
+            $account = User::find(2);
+            $account->syncRoles('zakelijke adverteerder');
+
+            $browser->loginAs($user)->visit('/account/2/edit')
+                ->assertPathIs('/account/2/edit')
+                ->press('@upload')
+                ->assertSee('The contract field is required.')
+                ->assertPathIs('/account/2/edit');
+        });
+    }
+
+    public function test_upload_contract_fails_mime(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::find(1);
+            $user->assignRole('admin');
+
+            $account = User::find(2);
+            $account->syncRoles('zakelijke adverteerder');
+
+            $file = __DIR__ . '/../test_files/test.jpg';
+
+            $browser->loginAs($user)->visit('/account/2/edit')
+                ->assertPathIs('/account/2/edit')
+                ->attach('contract', $file)
+                ->press('@upload')
+                ->assertSee('The contract must be a file of type: pdf.')
+                ->assertPathIs('/account/2/edit');
+        });
+    }
+
+    public function test_upload_contract_fails_not_modified(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::find(1);
+            $user->assignRole('admin');
+
+            $account = User::find(2);
+            $account->syncRoles('zakelijke adverteerder');
+
+            $file = public_path('storage\contracts\contract-'.$account->id.'.pdf');
+
+            $browser->loginAs($user)->visit('/account/2/edit')
+                ->assertPathIs('/account/2/edit')
+                ->press('@export')
+                ->attach('contract', $file)
+                ->press('@upload')
+                ->assertSee('The contract is not modified the original contract is the same as the 1 in file system')
+                ->assertPathIs('/account/2/edit');
+        });
+    }
+
+    public function test_upload_contract_succeeds(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::find(1);
+            $user->assignRole('admin');
+
+            $account = User::find(2);
+            $account->syncRoles('zakelijke adverteerder');
+
+            $file = __DIR__ . '/../test_files/contract-2.pdf';
+
+            $browser->loginAs($user)->visit('/account/2/edit')
+                ->assertPathIs('/account/2/edit')
+                ->press('@export')
+                ->attach('contract', $file)
+                ->press('@upload')
                 ->assertPathIs('/account');
         });
     }

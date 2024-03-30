@@ -23,13 +23,19 @@ class AccountController extends Controller
         $sort = request('sort', 'asc');
 
         $roles = Role::all()->pluck('name');
-        $accounts = User::filter(request(['search', 'role']))->orderBy('name', $sort)->with('roles')->paginate(5);
+        $accounts = User::filter(request(['search', 'role']))->orderBy('name', $sort)->with('roles')->paginate(5)->appends(request()->query());
 
         $nextSort = $sort === 'asc' ? 'desc' : 'asc';
         return view('account.index')->with(compact('accounts', 'nextSort', 'roles'));
     }
 
-    public function edit($id): View
+    public function show($id) : View
+    {
+        $account = User::findOrFail($id);
+        return view('account.show')->with(compact('account'));
+    }
+
+    public function edit($id) : View
     {
         $account = User::findOrFail($id);
         $roles = Role::all()->pluck('name');
