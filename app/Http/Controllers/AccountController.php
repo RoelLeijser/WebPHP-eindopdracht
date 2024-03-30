@@ -20,7 +20,7 @@ class AccountController extends Controller
         $sort = request('sort','asc');
 
         $roles = Role::all()->pluck('name');
-        $accounts = User::filter(request(['search', 'role']))->orderBy('name', $sort)->with('roles')->paginate(5);
+        $accounts = User::filter(request(['search', 'role']))->orderBy('name', $sort)->with('roles')->paginate(5)->appends(request()->query());
 
         $nextSort = $sort === 'asc' ? 'desc' : 'asc';
         return view('account.index')->with(compact('accounts', 'nextSort', 'roles'));

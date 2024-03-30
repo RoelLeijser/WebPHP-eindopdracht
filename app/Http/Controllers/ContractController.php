@@ -16,12 +16,18 @@ class ContractController extends Controller
         $pdf = new TCPDF;
         $account = User::findOrFail($id);
 
+        if (!Storage::exists('storage/contracts')) {
+            Storage::makeDirectory('storage/contracts');
+        }
+
+
         if(!is_null($account->contract)) 
         {
-            $filename = $account->contract->contract;
+            $path = $account->contract->contract;
         } 
         else {
-            $filename = 'storage\contracts\contract-'.$account->id.'.pdf';
+            $filename = 'contract-'.$account->id.'.pdf';
+            $path = 'storage' . DIRECTORY_SEPARATOR . 'contracts' . DIRECTORY_SEPARATOR . $filename;
             $data = [
                 'name' => $account->name,
                 'email' => $account->email,
@@ -33,12 +39,11 @@ class ContractController extends Controller
             $pdf::SetTitle('Contract');
             $pdf::AddPage();
             $pdf::writeHTML($html, true, false, true, false, '');
-            $pdf::Output(public_path($filename), 'F');
+            $pdf::Output(public_path($path), 'F');
 
-            Contract::create(['contract' => $filename, 'user_id' => $account->id]);
+            Contract::create(['contract' => $path, 'user_id' => $account->id]);
         }
-
-        return response()->download(public_path($filename));
+        return response()->download(public_path($path));
     }
 
     public function verify(Request $request, $id)
