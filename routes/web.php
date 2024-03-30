@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\AdvertisementController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -17,7 +18,8 @@ use Illuminate\Support\Facades\Session;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,11 +40,13 @@ Route::group(['middleware' => ['auth', 'role:admin']], function() {
     Route::put('contract/{account}', [ContractController::class, 'verify'])->name('contract.verify');
 });
 
-Route::group(['middleware' => ['auth', 'can:contract accepted']], function() {
+Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder', 'can:contract accepted']], function () {
     Route::get('company/{company}/edit', [CompanyController::class, 'edit'])->name('company.edit');
     Route::put('company/{company}', [CompanyController::class, 'update'])->name('company.update');
     Route::get('company/{company}/layout', [CompanyController::class, 'editPageLayout'])->name('company.edit.layout');
     Route::put('company/{company}/layout', [CompanyController::class, 'updatePageLayout'])->name('company.update.layout');
+    Route::post('company/{company}/createApiKey', [CompanyController::class, 'createApiToken'])->name('company.createApiKey');
+    Route::delete('company/{company}/deleteApiKey', [CompanyController::class, 'deleteApiToken'])->name('company.deleteApiKey');
 });
 
 Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');
@@ -56,3 +60,11 @@ Route::get('set-locale/{locale}', function ($locale) {
 
     return redirect()->back();
 })->name('locale.setting');
+
+Route::resource('advertisements', AdvertisementController::class);
+Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
+Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
+
+Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
+
+Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');

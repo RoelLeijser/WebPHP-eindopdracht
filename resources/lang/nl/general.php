@@ -8,5 +8,7 @@ return [
         'to' => 'tot',
         'of' => 'van',
         'results' => 'resultaten'
-    ]
+    ],
+    'yesterday' => 'Gisteren',
+    'today' => 'Vandaag',
 ];

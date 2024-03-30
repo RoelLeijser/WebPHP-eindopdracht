@@ -30,4 +30,6 @@ return [
         'company' => 'Company: ',
         'slug' => 'Link to company: ',
     ],
+    'favorites' => 'Favorite advertisements',
+    "no_favorites" => "You don't have any favorite advertisements.",
 ];

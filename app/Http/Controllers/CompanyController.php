@@ -27,7 +27,7 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'max:255'],
@@ -53,14 +53,22 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id) : View
+    public function show($id): View
     {
         $company = Company::where('user_id', $id)->first();
-        if(is_null($company)) {
+        if (is_null($company)) {
             return view('company.create');
         }
-       
-        return view('company.show')->with(compact('company'));
+
+        // get all tokens from each user at the company
+        $apiTokens = $company->user()->get()->map(function ($user) {
+            return $user->tokens;
+        })->flatten();
+
+        return view('company.show')->with([
+            'company' => $company,
+            'apiTokens' => $apiTokens,
+        ]);
     }
 
     /**
@@ -116,9 +124,8 @@ class CompanyController extends Controller
             }
 
             return redirect()->route('company.show', $company->user_id)->with('success', __('company.success_update'));
-        }
-        catch(Exception $e) {
-           return redirect()->route('company.edit', $id)->with('error', __('company.fail_update'));
+        } catch (Exception $e) {
+            return redirect()->route('company.edit', $id)->with('error', __('company.fail_update'));
         }
     }
 
@@ -126,7 +133,7 @@ class CompanyController extends Controller
     {
         $company = Company::where('slug', $slug)->with('layout')->first();
 
-        if(is_null($company)) {
+        if (is_null($company)) {
             abort(404);
         }
 
@@ -158,9 +165,31 @@ class CompanyController extends Controller
             ]);
 
             return redirect()->route('company.show', $company->user_id)->with('success', __('company.success_update'));
+        } catch (Exception $e) {
+            return redirect()->route('company.edit', $company->id)->with('error', __('company.fail_update'));
         }
-        catch(Exception $e) {
-           return redirect()->route('company.edit', $company->id)->with('error', __('company.fail_update'));
-        }
+    }
+
+    public function createApiToken(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'max:255'],
+        ]);
+
+        $token = $request->user()->createToken($request->name)->plainTextToken;
+
+        return redirect()->route('company.show', Auth::user()->id)->with(
+            [
+                'success' => __('company.api_token_created'),
+                'token' => explode('|', $token)[1]
+            ]
+        );
+    }
+
+    public function deleteApiToken(int $id, Request $request)
+    {
+        $request->user()->tokens()->where('id', $id)->delete();
+
+        return redirect()->route('company.show', Auth::user()->id)->with('success', __('company.api_token_deleted'));
     }
 }

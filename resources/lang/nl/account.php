@@ -30,4 +30,7 @@ return [
         'company' => 'Bedrijf: ',
         'slug' => 'Landingspagina: ',
     ],
+    'favorites' => 'Favoriete advertenties',
+    "no_favorites" => "U heeft geen favoriete advertenties.",
 ];
+
