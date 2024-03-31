@@ -7,15 +7,15 @@
     
         <!-- uitgelichte advertenties  -->
             @if(!is_null($company->layout->first_component))
-                <x-dynamic-component :component="'company.' . $company->layout->first_component" :company="$company" :reviews="$reviews" />
+                <x-dynamic-component :component="'company.' . $company->layout->first_component" :adverts="$adverts" :company="$company" :reviews="$reviews" />
             @endif
 
             @if(!is_null($company->layout->second_component))
-                <x-dynamic-component :component="'company.' . $company->layout->second_component" :company="$company" :reviews="$reviews"/>
+                <x-dynamic-component :component="'company.' . $company->layout->second_component" :adverts="$adverts" :company="$company" :reviews="$reviews"/>
             @endif
 
             @if(!is_null($company->layout->third_component))
-                <x-dynamic-component :component="'company.' . $company->layout->third_component" :company="$company" :reviews="$reviews" />
+                <x-dynamic-component :component="'company.' . $company->layout->third_component" :adverts="$adverts" :company="$company" :reviews="$reviews" />
             @endif
         </div>
     @endif

@@ -108,7 +108,6 @@
             </div>
         </div>
         @if($advertisement->type == 'rental')
-        <!--TODO: only logged in people can write plus they can't be the same person of this advertisement -->
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8 dark:bg-gray-800 dark:text-white gap-4">
                         @can('create review')

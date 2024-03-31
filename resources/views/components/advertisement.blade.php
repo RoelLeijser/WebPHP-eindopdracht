@@ -50,7 +50,7 @@
              </div>
          </div>
      </div>
-    <div class="w-full max-w-40 p-3">
+    <div class="w-full text-sm max-w-40 p-3">
         <a href="{{ route('advertisements.user', $advertisement->seller_id) }}"
             class="text-blue-500 dark:text-blue-400 hover:underline  whitespace-nowrap">
             {{ \Illuminate\Support\Str::limit($advertisement->seller->name, 16, $end = '...') }}
