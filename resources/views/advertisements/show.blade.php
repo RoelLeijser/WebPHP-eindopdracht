@@ -126,6 +126,19 @@
                         </div>
                     @endif
 
+
+
+                    @if ($advertisement->linkedAdvertisements->count() > 0)
+                        <h3 class="text-xl font-bold mt-4">{{ __('advertisement.linked_advertisements') }}</h3>
+                        <div class="justify-center select-none flex">
+                            @foreach ($advertisement->linkedAdvertisements as $linked)
+                                <a href="{{ route('advertisements.show', [$linked->id]) }}"
+                                    class="py-2 px-4 shadow-md no-underline rounded-full bg-blue-500 text-white font-sans font-semibold text-sm border-blue hover:bg-blue-light focus:outline-none active:shadow-none mr-2">
+                                    #{{ $linked->title }}
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
                     <!-- Share QR code -->
                     <div class="relative group h-[340px]">
                         <span class="cursor-pointer underline text-blue-500">{{ __('advertisement.share') }}</span>
