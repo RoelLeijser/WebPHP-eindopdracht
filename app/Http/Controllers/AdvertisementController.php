@@ -27,7 +27,8 @@ class AdvertisementController extends Controller
             ->allowedIncludes(['seller'])
             ->defaultSort('-created_at')
             ->allowedSorts(['price', 'created_at'])
-            ->paginate(10);
+            ->paginate(10)
+            ->appends(request()->query());
 
         return view('advertisements.index', [
             'advertisements' => $advertisements,

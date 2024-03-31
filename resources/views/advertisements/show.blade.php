@@ -14,7 +14,7 @@
                             class="w-full h-full object-cover mb-4 rounded-md">
                     </div>
                     <p class="text-lg">{{ $advertisement->description }}</p>
-                    @if (auth()->user()->id === $advertisement->seller->id)
+                    @if (Auth::check() && auth()->user()->id === $advertisement->seller->id)
                         <div class="flex gap-2">
                             @can('edit advertisements')
                                 <a href="{{ route('advertisements.edit', [$advertisement->id]) }}"
