@@ -26,5 +26,5 @@ return [
     "auction" => "Auction",
     "place_bid" => "Place Bid",
     "biddings" => "Biddings",
-
+    "company" => "Company: ",
 ];

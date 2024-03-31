@@ -50,9 +50,16 @@
              </div>
          </div>
      </div>
-
-     <a href="{{ route('advertisements.index') }}"
-         class="text-blue-500 dark:text-blue-400 hover:underline w-full max-w-40 p-3 whitespace-nowrap">
-         {{ \Illuminate\Support\Str::limit($advertisement->seller->name, 16, $end = '...') }}
-     </a>
+    <div class="w-full max-w-40 p-3">
+        <a href="{{ route('advertisements.user', $advertisement->seller_id) }}"
+            class="text-blue-500 dark:text-blue-400 hover:underline  whitespace-nowrap">
+            {{ \Illuminate\Support\Str::limit($advertisement->seller->name, 16, $end = '...') }}
+        </a>
+        @if(!is_null($advertisement->seller->company))
+            <span>{{__('advertisement.company')}}<a href="{{ route('landingpage', $advertisement->seller->company->slug) }}"
+                class="text-blue-500 dark:text-blue-400 hover:underline  whitespace-nowrap">
+                {{ \Illuminate\Support\Str::limit($advertisement->seller->company->name, 16, $end = '...') }}
+            </a></span>
+        @endif
+    </div>
  </div>

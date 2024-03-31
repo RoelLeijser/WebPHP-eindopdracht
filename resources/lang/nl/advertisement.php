@@ -26,4 +26,5 @@ return [
     "auction" => "Veiling",
     "place_bid" => "Bod plaatsen",
     "biddings" => "Biedingen",
+    "company" => "Bedrijf: ",
 ];

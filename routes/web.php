@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -29,11 +30,13 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    //Route::resource('review', ReviewController::class, ['except' => ['index', 'show', 'create',]]);
+    Route::get('review/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
+    Route::put('review/{review}/update', [ReviewController::class, 'update'])->name('review.update');
+    Route::delete('review/{review}/delete', [ReviewController::class, 'destroy'])->name('review.destroy');
+    Route::post('review/{user}/user', [ReviewController::class, 'storeForUser'])->name('review.store.user');
+    Route::post('review/{advertisement}/advertisement', [ReviewController::class, 'storeForAdvertisements'])->name('review.store.advertisement');
 });
-
 
 Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function () {
     Route::resource('company', CompanyController::class, ['except' => ['index', 'destroy']]);
@@ -62,6 +65,7 @@ Route::get('set-locale/{locale}', function ($locale) {
 })->name('locale.setting');
 
 Route::resource('advertisements', AdvertisementController::class);
+Route::get('advertisements/{user}/user', [AdvertisementController::class, 'advertisementsByUser'])->name('advertisements.user');
 Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
 Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
 

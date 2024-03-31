@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
             <div
                 class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8 dark:bg-gray-800 dark:text-white flex gap-4">
                 <div class="w-full">
@@ -17,7 +17,8 @@
                 </div>
                 <div class="mt-2 w-2/5 flex flex-col gap-4">
                     <!-- favorite button -->
-                    <form action="{{ route('advertisements.favorite', [$advertisement->id]) }}" method="POST">
+                    @auth
+                        <form action="{{ route('advertisements.favorite', [$advertisement->id]) }}" method="POST">
                         @csrf
                         <button type="submit" class="p-2 rounded-full fill-black bg-slate-100 inline-block mt-2"
                             title="Favorite">
@@ -37,11 +38,19 @@
                                 </svg>
                             @endif
                         </button>
-                    </form>
+                        </form>
+                    @endauth
 
                     <h1 class="text-3xl font-bold">{{ $advertisement->title }}</h1>
-                    <a href="{{ route('advertisements.index', $advertisement->seller->id) }}"
+                    <a href="{{ route('advertisements.user', $advertisement->seller->id) }}"
                         class="text-blue-500 hover:underline">{{ $advertisement->seller->name }}</a>
+                    @if(!is_null($advertisement->seller->company))
+                            <span>{{__('advertisement.company')}}<a href="{{ route('landingpage', $advertisement->seller->company->slug) }}"
+                                class="text-blue-500 dark:text-blue-400 hover:underline  whitespace-nowrap">
+                                   {{ $advertisement->seller->company->name}}
+                            </a></span>
+                            
+                    @endif
                     <span class="text-5xl">&euro;&nbsp;{{ $advertisement->price }}</span>
                     @if ($advertisement->delivery === 'pickup')
                         <span class="text-slate-400">{{ __('advertisement.pickup') }}</span>
@@ -97,4 +106,22 @@
 
                 </div>
             </div>
+        </div>
+        @if($advertisement->type == 'rental')
+        <!--TODO: only logged in people can write plus they can't be the same person of this advertisement -->
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8 dark:bg-gray-800 dark:text-white gap-4">
+                        @can('create review')
+                            <x-review-create route="review.store.advertisement" :id="$advertisement->id" :advertisement="$advertisement"></x-review-create>
+                        @endcan
+                        @foreach($reviews as $review)
+                            <x-review :review="$review"/>
+                        @endforeach
+                        <div class="py-4 px-3">
+                            <hr class="py-1"/>
+                            {{ $reviews->links() }}
+                        </div>
+                </div>
+            </div>
+        @endif
 </x-app-layout>
