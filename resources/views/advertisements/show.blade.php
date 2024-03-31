@@ -76,7 +76,9 @@
 
 
                     <h1 class="text-3xl font-bold">{{ $advertisement->title }}</h1>
-                    <a href="{{ route('advertisements.index', $advertisement->seller->id) }}"
+                    <a href="{{ route('advertisements.index', [
+                        'filter[seller_id]' => $advertisement->seller->id,
+                    ]) }}"
                         class="text-blue-500 hover:underline">{{ $advertisement->seller->name }}</a>
                     <span class="text-5xl">&euro;&nbsp;{{ $advertisement->price }}</span>
                     @if ($advertisement->delivery === 'pickup')

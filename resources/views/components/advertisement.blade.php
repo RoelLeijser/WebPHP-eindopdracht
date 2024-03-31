@@ -51,7 +51,9 @@
          </div>
      </div>
 
-     <a href="{{ route('advertisements.index') }}"
+     <a href="{{ route('advertisements.index', [
+         'filter[seller_id]' => $advertisement->seller->id,
+     ]) }}"
          class="text-blue-500 dark:text-blue-400 hover:underline w-full max-w-40 p-3 whitespace-nowrap">
          {{ \Illuminate\Support\Str::limit($advertisement->seller->name, 16, $end = '...') }}
      </a>

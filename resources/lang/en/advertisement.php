@@ -27,4 +27,7 @@ return [
     "place_bid" => "Place Bid",
     "biddings" => "Biddings",
     "delete_confirmation" => "Are you sure you want to delete this advertisement?",
+    "min_price" => "Min Price",
+    "max_price" => "Max Price",
+    'no_advertisements' => 'No advertisements found.',
 ];

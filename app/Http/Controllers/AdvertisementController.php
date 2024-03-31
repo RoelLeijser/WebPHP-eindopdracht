@@ -5,21 +5,35 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Advertisement;
 use Illuminate\Support\Facades\Auth;
-use \Illuminate\Validation\ValidationException;
 use App\Models\Favorite;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class AdvertisementController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $advertisements = Advertisement::orderBy('created_at', 'desc')->with('seller')->paginate(10);
+        $advertisements = QueryBuilder::for(Advertisement::class)
+            ->allowedFilters([
+                'title',
+                'type',
+                'delivery',
+                AllowedFilter::exact('seller_id'),
+                AllowedFilter::scope('price')
+            ])
+            ->allowedIncludes(['seller'])
+            ->paginate(10);
 
-        return view('advertisements.index', compact('advertisements'));
+        return view('advertisements.index', [
+            'advertisements' => $advertisements,
+            'price' => [
+                Advertisement::min('price'), Advertisement::max('price')
+            ]
+        ]);
     }
-
 
     /**
      * Show the form for creating a new resource.

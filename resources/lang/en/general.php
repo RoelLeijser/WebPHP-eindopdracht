@@ -11,4 +11,5 @@ return [
     ],
     'yesterday' => 'Yesterday',
     'today' => 'Today',
+    'filter' => 'Filter',
 ];

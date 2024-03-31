@@ -29,4 +29,9 @@ class Advertisement extends Model
     {
         return $this->belongsTo(User::class, 'seller_id');
     }
+
+    public function scopePrice($query, $min, $max)
+    {
+        return $query->whereBetween('price', [$min, $max]);
+    }
 }
