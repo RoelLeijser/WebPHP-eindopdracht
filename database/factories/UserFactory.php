@@ -54,6 +54,7 @@ class UserFactory extends Factory
                 $user->givePermissionTo(['edit accounts', 'delete accounts']);
             }
             $user->assignRole($role);
+            $user->givePermissionTo(['create review', 'change review']);
         });
     }
 }
