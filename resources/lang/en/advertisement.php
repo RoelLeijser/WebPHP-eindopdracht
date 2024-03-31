@@ -26,5 +26,5 @@ return [
     "auction" => "Auction",
     "place_bid" => "Place Bid",
     "biddings" => "Biddings",
-
+    "delete_confirmation" => "Are you sure you want to delete this advertisement?",
 ];

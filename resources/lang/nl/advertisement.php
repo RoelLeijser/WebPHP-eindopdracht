@@ -26,4 +26,5 @@ return [
     "auction" => "Veiling",
     "place_bid" => "Bod plaatsen",
     "biddings" => "Biedingen",
+    "delete_confirmation" => "Weet u zeker dat u deze advertentie wilt verwijderen?",
 ];
