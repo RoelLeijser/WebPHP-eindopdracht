@@ -30,4 +30,6 @@ return [
     "min_price" => "Min Price",
     "max_price" => "Max Price",
     'no_advertisements' => 'No advertisements found.',
+    "price_asc" => "Price Ascending",
+    "price_desc" => "Price Descending",
 ];

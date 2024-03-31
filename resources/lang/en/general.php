@@ -12,4 +12,7 @@ return [
     'yesterday' => 'Yesterday',
     'today' => 'Today',
     'filter' => 'Filter',
+    "newest" => "Newest",
+    "oldest" => "Oldest",
+    "sort" => "Sort",
 ];

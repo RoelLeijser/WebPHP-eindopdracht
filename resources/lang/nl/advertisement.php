@@ -30,4 +30,6 @@ return [
     "min_price" => "Min. prijs",
     "max_price" => "Max. prijs",
     'no_advertisements' => 'Er zijn geen advertenties gevonden.',
+    "price_asc" => "Prijs oplopend",
+    "price_desc" => "Prijs aflopend",
 ];

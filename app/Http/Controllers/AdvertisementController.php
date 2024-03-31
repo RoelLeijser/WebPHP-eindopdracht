@@ -25,6 +25,8 @@ class AdvertisementController extends Controller
                 AllowedFilter::scope('price')
             ])
             ->allowedIncludes(['seller'])
+            ->defaultSort('-created_at')
+            ->allowedSorts(['price', 'created_at'])
             ->paginate(10);
 
         return view('advertisements.index', [
