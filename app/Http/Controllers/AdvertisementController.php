@@ -5,21 +5,39 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Advertisement;
 use Illuminate\Support\Facades\Auth;
-use \Illuminate\Validation\ValidationException;
 use App\Models\Favorite;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\Permission\Traits\HasRoles;
 
 class AdvertisementController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $advertisements = Advertisement::orderBy('created_at', 'desc')->with('seller')->paginate(10);
+        $advertisements = QueryBuilder::for(Advertisement::class)
+            ->allowedFilters([
+                'title',
+                'type',
+                'delivery',
+                AllowedFilter::exact('seller_id'),
+                AllowedFilter::scope('price')
+            ])
+            ->allowedIncludes(['seller'])
+            ->defaultSort('-created_at')
+            ->allowedSorts(['price', 'created_at'])
+            ->paginate(10)
+            ->appends(request()->query());
 
-        return view('advertisements.index', compact('advertisements'));
+        return view('advertisements.index', [
+            'advertisements' => $advertisements,
+            'price' => [
+                Advertisement::min('price'), Advertisement::max('price')
+            ]
+        ]);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -80,7 +98,7 @@ class AdvertisementController extends Controller
 
         return view('advertisements.show', [
             'advertisement' => $advertisement,
-            'isFavorite' => Auth::user()->favorites->contains('advertisement_id', $id),
+            'isFavorite' =>  Auth::user() && Auth::user()->favorites->contains('advertisement_id', $id)
         ]);
     }
 
@@ -101,6 +119,12 @@ class AdvertisementController extends Controller
     public function update(Request $request, string $id)
     {
         $advertisement = Advertisement::findOrFail($id);
+        $user = Auth::user();
+
+        if (($advertisement->seller_id !== auth()->id()) || $user->hasRole('admin')) {
+            return redirect()->route('advertisements.index')
+                ->with('error', 'You can only edit your own advertisements.');
+        }
 
         $request->validate([
             'title' => 'required',
@@ -143,7 +167,11 @@ class AdvertisementController extends Controller
      */
     public function destroy(string $id)
     {
-        //delete image
+        if ((Advertisement::findOrFail($id)->seller_id !== auth()->id()) || Auth::user()->hasRole('admin')) {
+            return redirect()->route('advertisements.index')
+                ->with('error', 'You can only delete your own advertisements.');
+        }
+
         $image = Advertisement::findOrFail($id)->image;
         if (file_exists(public_path($image))) {
             unlink(public_path($image));
