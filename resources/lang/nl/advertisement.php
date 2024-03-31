@@ -2,7 +2,7 @@
 
 return [
     "pickup" => "Ophalen",
-    "shipping" => "Verzending",
+    "shipping" => "verzenden",
     "pickup_and_shipping" => "Ophalen en verzenden",
     "advertisements" => "Advertenties",
     "for_sale" => "Te koop",

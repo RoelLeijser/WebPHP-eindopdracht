@@ -80,7 +80,7 @@ class AdvertisementController extends Controller
 
         return view('advertisements.show', [
             'advertisement' => $advertisement,
-            'isFavorite' => Auth::user()->favorites->contains('advertisement_id', $id),
+            'isFavorite' =>  Auth::user() && Auth::user()->favorites->contains('advertisement_id', $id)
         ]);
     }
 

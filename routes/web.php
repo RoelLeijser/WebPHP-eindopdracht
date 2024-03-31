@@ -29,11 +29,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function() {
+Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function () {
     Route::resource('company', CompanyController::class, ['except' => ['index']]);
 });
 
-Route::group(['middleware' => ['auth', 'role:admin']], function() {
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::resource('account', AccountController::class, ['except' => ['create', 'store']]);
     Route::delete('company/{company}/delete', [CompanyController::class, 'destroy'])->name('company.destroy');
     Route::get('contract/{account}', [ContractController::class, 'export'])->name('contract.export');
@@ -49,8 +49,6 @@ Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder', 'can:contr
     Route::delete('company/{company}/deleteApiKey', [CompanyController::class, 'deleteApiToken'])->name('company.deleteApiKey');
 });
 
-Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');
-
 
 //Language settings
 Route::get('set-locale/{locale}', function ($locale) {
@@ -61,9 +59,14 @@ Route::get('set-locale/{locale}', function ($locale) {
     return redirect()->back();
 })->name('locale.setting');
 
-Route::resource('advertisements', AdvertisementController::class);
-Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
-Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('advertisements', AdvertisementController::class)->except(['index', 'show']);
+    Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
+    Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
+});
+
+Route::get('advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');
+Route::get('advertisements/{advertisement}', [AdvertisementController::class, 'show'])->name('advertisements.show');
 
 Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
 
