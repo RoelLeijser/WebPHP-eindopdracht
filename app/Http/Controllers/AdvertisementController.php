@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Favorite;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\Permission\Traits\HasRoles;
 
 class AdvertisementController extends Controller
 {
@@ -118,6 +119,12 @@ class AdvertisementController extends Controller
     public function update(Request $request, string $id)
     {
         $advertisement = Advertisement::findOrFail($id);
+        $user = Auth::user();
+
+        if (($advertisement->seller_id !== auth()->id()) || $user->hasRole('admin')) {
+            return redirect()->route('advertisements.index')
+                ->with('error', 'You can only edit your own advertisements.');
+        }
 
         $request->validate([
             'title' => 'required',
@@ -160,7 +167,11 @@ class AdvertisementController extends Controller
      */
     public function destroy(string $id)
     {
-        //delete image
+        if ((Advertisement::findOrFail($id)->seller_id !== auth()->id()) || Auth::user()->hasRole('admin')) {
+            return redirect()->route('advertisements.index')
+                ->with('error', 'You can only delete your own advertisements.');
+        }
+
         $image = Advertisement::findOrFail($id)->image;
         if (file_exists(public_path($image))) {
             unlink(public_path($image));

@@ -6,7 +6,6 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\AdvertisementController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +59,15 @@ Route::get('set-locale/{locale}', function ($locale) {
 })->name('locale.setting');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('advertisements', AdvertisementController::class)->except(['index', 'show']);
+    Route::resource('advertisements', AdvertisementController::class)
+        ->except(['index', 'show'])
+        ->middleware([
+            'can:create advertisements',
+            'can:edit advertisements',
+            'can:delete advertisements',
+            'can:favorite advertisements',
+            'can:bid advertisements'
+        ]);
     Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
     Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
 });
