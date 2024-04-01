@@ -19,6 +19,8 @@ class PermissionRoleSeeder extends Seeder
         Permission::create(['name' => 'contract accepted']);
         Permission::create(['name' => 'edit accounts']);
         Permission::create(['name' => 'delete accounts']);
+        Permission::create(['name' => 'create review']);
+        Permission::create(['name' => 'change review']);
 
         // Advertisement permissions
         Permission::create(['name' => 'create advertisements']);
@@ -53,7 +55,6 @@ class PermissionRoleSeeder extends Seeder
             'delete advertisements',
             'favorite advertisements',
             'bid advertisements',
-            'contract accepted',
         ]);
     }
 }

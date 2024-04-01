@@ -5,6 +5,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,15 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    //Route::resource('review', ReviewController::class, ['except' => ['index', 'show', 'create',]]);
+    Route::get('review/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
+    Route::put('review/{review}/update', [ReviewController::class, 'update'])->name('review.update');
+    Route::delete('review/{review}/delete', [ReviewController::class, 'destroy'])->name('review.destroy');
+    Route::post('review/{user}/user', [ReviewController::class, 'storeForUser'])->name('review.store.user');
+    Route::post('review/{advertisement}/advertisement', [ReviewController::class, 'storeForAdvertisements'])->name('review.store.advertisement');
+});
 
 Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function () {
     Route::resource('company', CompanyController::class, ['except' => ['index']]);
@@ -72,6 +82,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
 });
 
+Route::get('advertisements/{user}/user', [AdvertisementController::class, 'advertisementsByUser'])->name('advertisements.user');
 Route::get('advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');
 Route::get('advertisements/{advertisement}', [AdvertisementController::class, 'show'])->name('advertisements.show');
 
