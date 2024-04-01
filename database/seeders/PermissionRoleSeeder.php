@@ -28,6 +28,8 @@ class PermissionRoleSeeder extends Seeder
         Permission::create(['name' => 'delete advertisements']);
         Permission::create(['name' => 'favorite advertisements']);
         Permission::create(['name' => 'bid advertisements']);
+        Permission::create(['name' => 'rent advertisements']);
+        Permission::create(['name' => 'buy advertisements']);
 
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'basis gebruiker']);

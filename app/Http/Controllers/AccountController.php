@@ -84,8 +84,9 @@ class AccountController extends Controller
     public function agenda(): View
     {
         $account = Auth::user();
-        $rentedProducts =  User::find($account->id)->rentedProducts()->with('renter')->paginate(5);
-
+        $rentedOutProducts = Advertisement::where('seller_id', $account->id)->whereHas('renter', function ($query) {
+            $query->where('end_date', '>', now());
+        })->paginate(5);
         //only show the advertisements that are not rented with an end date in the future
         $myAdvertisements = Advertisement::where('seller_id', $account->id)
             ->whereDoesntHave('renter', function ($query) {
@@ -95,7 +96,7 @@ class AccountController extends Controller
         return view('account.agenda')->with(
             [
                 'advertisements' => $myAdvertisements,
-                'rentedProducts' => $rentedProducts
+                'rentedProducts' => $rentedOutProducts
             ]
         );
     }

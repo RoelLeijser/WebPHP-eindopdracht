@@ -278,11 +278,13 @@ class AdvertisementController extends Controller
                 ->withErrors('You can not rent your own advertisement.');
         }
 
-        if ($advertisement->renter()->where('user_id', auth()->id())->exists()) {
+        if ($advertisement->renter()->where([
+            ['user_id', auth()->id()],
+            ['end_date', '>', now()],
+        ])->exists()) {
             return redirect()->route('advertisements.show', $id)
                 ->withErrors('You have already rented this advertisement.');
         }
-
         if ($advertisement->renter()->where('end_date', '>', now())->exists()) {
             return redirect()->route('advertisements.show', $id)
                 ->withErrors('This advertisement is already rented.');
