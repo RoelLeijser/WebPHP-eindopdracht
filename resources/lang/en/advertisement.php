@@ -38,4 +38,5 @@ return [
     "rented_out_to" => "Rented out to",
     "my_advertisements" => "My Advertisements",
     "until" => "Until",
+    "linked_advertisements" => "Linked Advertisements",
 ];

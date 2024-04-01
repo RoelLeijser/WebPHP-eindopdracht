@@ -78,6 +78,15 @@
                                 <option value="pickup">{{ __('advertisement.pickup') }}</option>
                             </select>
 
+                            <label for="linkedAdvertisement"
+                                class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.linked_advertisements') }}</label>
+                            <select name="linkedAdvertisements[]"
+                                class="p-2 border border-gray-300 dark:border-gray-700 rounded-lg" multiple>
+                                @foreach ($allAdvertisements as $advertisement)
+                                    <option value="{{ $advertisement->id }}">{{ $advertisement->title }}</option>
+                                @endforeach
+                            </select>
+
                             <button type="submit"
                                 class="bg-blue-500 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">{{ __('advertisement.create_advertisement') }}</button>
                 </form>

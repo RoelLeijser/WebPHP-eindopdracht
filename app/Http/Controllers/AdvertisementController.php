@@ -51,7 +51,10 @@ class AdvertisementController extends Controller
      */
     public function create()
     {
-        return view('advertisements.create');
+        return view(
+            'advertisements.create',
+            ['allAdvertisements' => Advertisement::where('seller_id', auth()->id())->get()]
+        );
     }
 
     /**
@@ -66,6 +69,7 @@ class AdvertisementController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'type' => 'required',
             'delivery' => 'required',
+            'linkedAdvertisements' => 'array|max:3',
         ]);
 
         //more more than four with each type per person
@@ -81,7 +85,7 @@ class AdvertisementController extends Controller
         $imageName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $imageName);
 
-        Advertisement::create([
+        $advertisement = Advertisement::create([
             'title' => $request->title,
             'description' => $request->description,
             'seller_id' => auth()->id(),
@@ -90,6 +94,8 @@ class AdvertisementController extends Controller
             'type' => $request->type,
             'delivery' => $request->delivery,
         ]);
+
+        $advertisement->linkedAdvertisements()->attach($request->linkedAdvertisements);
 
         return redirect()->route('advertisements.index');
     }
@@ -101,7 +107,7 @@ class AdvertisementController extends Controller
     {
         $advertisement = Advertisement::with(['bids' => function ($query) {
             $query->orderBy('amount', 'asc'); // Orders bids by highest bid amount
-        }, 'seller'])->findOrFail($id);
+        }, 'seller', 'linkedAdvertisements'])->findOrFail($id);
 
         $reviews = $advertisement->reviews()->with('user')->orderByDesc('published_at')->paginate(3);
 
@@ -120,6 +126,9 @@ class AdvertisementController extends Controller
     {
         return view('advertisements.edit', [
             'advertisement' => Advertisement::findOrFail($id),
+            'allAdvertisements' => Advertisement::where('seller_id', auth()->id())
+                ->where('id', '!=', $id)
+                ->get()
         ]);
     }
 
@@ -168,6 +177,7 @@ class AdvertisementController extends Controller
             'type' => $request->type,
             'delivery' => $request->delivery,
         ]);
+        $advertisement->linkedAdvertisements()->sync($request->linkedAdvertisements);
 
         return redirect()->route('advertisements.index');
     }

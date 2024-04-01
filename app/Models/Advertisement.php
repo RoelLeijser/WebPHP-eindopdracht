@@ -44,4 +44,9 @@ class Advertisement extends Model
     {
         return $this->belongsToMany(User::class, 'rented_products', 'advertisement_id', 'user_id')->withPivot('start_date', 'end_date');
     }
+
+    public function linkedAdvertisements()
+    {
+        return $this->belongsToMany(Advertisement::class, 'linked_advertisements', 'advertisement_id', 'linked_advertisement_id');
+    }
 }

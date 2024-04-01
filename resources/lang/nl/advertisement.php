@@ -38,4 +38,5 @@ return [
     "rented_out_to" => "Verhuurd aan",
     "my_advertisements" => "Mijn advertenties",
     "until" => "Tot",
+    "linked_advertisements" => "Gekoppelde advertenties",
 ];
