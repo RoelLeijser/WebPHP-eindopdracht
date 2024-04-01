@@ -17,8 +17,8 @@ return new class extends Migration
 
         Schema::create('rented_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('advertisement_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('advertisement_id')->nullable()->onDelete('set null');
+            $table->foreignId('user_id')->nullable()->onDelete('set null');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();
@@ -33,5 +33,7 @@ return new class extends Migration
         Schema::table('advertisements', function (Blueprint $table) {
             $table->dropColumn('end_date');
         });
+
+        Schema::dropIfExists('rented_products');
     }
 };
