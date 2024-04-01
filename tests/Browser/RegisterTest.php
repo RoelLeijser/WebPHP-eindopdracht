@@ -28,7 +28,7 @@ class RegisterTest extends DuskTestCase
                 ->type('@password', 'wachtwoord123')
                 ->type('@password_confirmation', 'wachtwoord123')
                 ->press('@create')
-                ->assertPathIs('/dashboard');
+                ->assertPathIs('/');
         });
     }
 
@@ -53,9 +53,9 @@ class RegisterTest extends DuskTestCase
             $browser->visit('/register')
                 ->type('@name', 'John Doe')
                 ->type('@email', 'test@mail.com')
-                ->select('@role', 'admin')
+                ->select('@role', 'balbalas')
                 ->type('@password', 'wachtwoord456')
-                ->type('@password_confirmation', 'wachtwoord123')
+                ->type('@password_confirmation', 'wachttwoord456')
                 ->press('@create')
                 ->assertPathIs('/register');
         });

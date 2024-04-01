@@ -55,7 +55,7 @@ class User extends Authenticatable
         return $this->hasOne(Contract::class);
     }
 
-    public function scopeFilter($query, array $filters) 
+    public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? false, function ($query, $search) {
             $query
@@ -79,5 +79,10 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->belongsToMany(Review::class, 'user_has_reviews');
+    }
+
+    public function rentedProducts()
+    {
+        return $this->belongsToMany(Advertisement::class, 'rented_products');
     }
 }

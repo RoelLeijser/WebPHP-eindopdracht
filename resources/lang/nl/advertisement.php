@@ -35,4 +35,10 @@ return [
     "price_desc" => "Prijs aflopend",
     "import_csv_file" => "CSV importeren",
     "upload" => "Uploaden",
+    "end_date" => "Einddatum",
+    "rented_out" => "Verhuurd",
+    "rented_out_to" => "Verhuurd aan",
+    "my_advertisements" => "Mijn advertenties",
+    "until" => "Tot",
+    "linked_advertisements" => "Gekoppelde advertenties",
 ];

@@ -35,4 +35,10 @@ return [
     "price_desc" => "Price Descending",
     "import_csv_file" => "Import CSV",
     "upload" => "Upload",
+    "end_date" => "End Date",
+    "rented_out" => "Rented Out",
+    "rented_out_to" => "Rented out to",
+    "my_advertisements" => "My Advertisements",
+    "until" => "Until",
+    "linked_advertisements" => "Linked Advertisements",
 ];
