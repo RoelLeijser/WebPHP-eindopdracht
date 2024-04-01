@@ -111,6 +111,9 @@ class AdvertisementsTest extends DuskTestCase
         ]);
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_filter_advertisements_title(): void
     {
         $this->browse(function (Browser $browser) {
@@ -124,6 +127,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_filter_advertisements_type(): void
     {
         $this->browse(function (Browser $browser) {
@@ -137,6 +143,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_filter_advertisements_delivery(): void
     {
         $this->browse(function (Browser $browser) {
@@ -150,6 +159,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_filter_advertisements_price(): void
     {
         $this->browse(function (Browser $browser) {
@@ -164,6 +176,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_sort_advertisements_price(): void
     {
         $this->browse(function (Browser $browser) {
@@ -176,6 +191,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_index_advertisements(): void
     {
         $this->browse(function (Browser $browser) {
@@ -186,6 +204,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_show_advertisements(): void
     {
         $this->browse(function (Browser $browser) {
@@ -197,6 +218,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_create_advertisement_fails_image(): void
     {
         $this->browse(function (Browser $browser) {
@@ -217,6 +241,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_create_advertisement_fails_required(): void
     {
         $this->browse(function (Browser $browser) {
@@ -237,6 +264,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_create_advertisement_fails_limit(): void
     {
         $this->browse(function (Browser $browser) {
@@ -269,6 +299,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_create_advertisement_succeeds(): void
     {
         $this->browse(function (Browser $browser) {
@@ -290,6 +323,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_create_advertisement_delete(): void
     {
         $this->browse(function (Browser $browser) {
@@ -308,6 +344,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_advertisement_update_fails(): void
     {
         $this->browse(function (Browser $browser) {
@@ -325,6 +364,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_advertisement_update_succeeds(): void
     {
         $this->browse(function (Browser $browser) {
@@ -344,6 +386,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_create_advertisement_no_favorites(): void
     {
         $this->browse(function (Browser $browser) {
@@ -355,6 +400,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_create_advertisement_favorites(): void
     {
         $this->browse(function (Browser $browser) {
@@ -373,6 +421,9 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group advertisements
+     */
     public function test_create_advertisement_bid(): void
     {
         $this->browse(function (Browser $browser) {

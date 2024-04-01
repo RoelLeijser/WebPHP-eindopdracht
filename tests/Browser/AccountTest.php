@@ -79,7 +79,7 @@ class AccountTest extends DuskTestCase
     public function test_delete_accounts(): void
     {
         $this->browse(function (Browser $browser) {
-            $user = User::find(1);
+            $user = User::find(2);
             $user->assignRole('admin');
 
             $browser->loginAs($user)->visit('/account')
@@ -178,7 +178,7 @@ class AccountTest extends DuskTestCase
             $account = User::find(2);
             $account->syncRoles('zakelijke adverteerder');
 
-            $file = public_path('storage\contracts\contract-'.$account->id.'.pdf');
+            $file = public_path('storage\contracts\contract-' . $account->id . '.pdf');
 
             $browser->loginAs($user)->visit('/account/2/edit')
                 ->assertPathIs('/account/2/edit')

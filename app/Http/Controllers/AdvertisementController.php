@@ -32,7 +32,6 @@ class AdvertisementController extends Controller
             ->allowedSorts(['price', 'created_at'])
             ->where([
                 ['end_date', '>', now()],
-                ['seller_id', '!=', auth()->id()],
             ])
             ->whereDoesntHave('renter', function ($query) {
                 $query->where('end_date', '>', now());
