@@ -28,6 +28,8 @@ class PermissionRoleSeeder extends Seeder
         Permission::create(['name' => 'delete advertisements']);
         Permission::create(['name' => 'favorite advertisements']);
         Permission::create(['name' => 'bid advertisements']);
+        Permission::create(['name' => 'rent advertisements']);
+        Permission::create(['name' => 'buy advertisements']);
 
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'basis gebruiker']);
@@ -39,6 +41,8 @@ class PermissionRoleSeeder extends Seeder
         Role::findByName('basis gebruiker')->givePermissionTo([
             'favorite advertisements',
             'bid advertisements',
+            'rent advertisements',
+            'buy advertisements',
         ]);
 
         Role::findByName('particuliere adverteerder')->givePermissionTo([
@@ -47,6 +51,8 @@ class PermissionRoleSeeder extends Seeder
             'delete advertisements',
             'favorite advertisements',
             'bid advertisements',
+            'rent advertisements',
+            'buy advertisements',
         ]);
 
         Role::findByName('zakelijke adverteerder')->givePermissionTo([
@@ -55,6 +61,8 @@ class PermissionRoleSeeder extends Seeder
             'delete advertisements',
             'favorite advertisements',
             'bid advertisements',
+            'rent advertisements',
+            'buy advertisements',
         ]);
     }
 }

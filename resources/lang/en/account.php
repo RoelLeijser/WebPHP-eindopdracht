@@ -32,4 +32,7 @@ return [
     ],
     'favorites' => 'Favorite advertisements',
     "no_favorites" => "You don't have any favorite advertisements.",
+    "agenda" => "Agenda",
+    "no_advertisements" => "You don't have any advertisements.",
+    "no_rented_products" => "You don't have any rented products.",
 ];
