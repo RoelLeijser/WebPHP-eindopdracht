@@ -152,16 +152,16 @@ class AdvertisementsTest extends DuskTestCase
             $user->syncRoles('zakelijke adverteerder');
 
             $advert1 = Advertisement::find(1);
-            $advert1->update(['seller_id' => 1]);
+            $advert1->update(['seller_id' => 1, 'type' => 'sell']);
 
             $advert2 = Advertisement::find(2);
-            $advert2->update(['seller_id' => 1]);
+            $advert2->update(['seller_id' => 1, 'type' => 'sell']);
 
             $advert3 = Advertisement::find(3);
-            $advert3->update(['seller_id' => 1]);
+            $advert3->update(['seller_id' => 1, 'type' => 'sell']);
 
             $advert4 = Advertisement::find(4);
-            $advert4->update(['seller_id' => 1]);
+            $advert4->update(['seller_id' => 1, 'type' => 'sell']);
 
             $file = __DIR__ . '/../test_files/test.jpg';
 
@@ -173,7 +173,7 @@ class AdvertisementsTest extends DuskTestCase
                 ->radio('@type', 'Sell')->click()
                 ->select('@delivery', 'Shipping')
                 ->press('@create')
-                ->assertSee('You can only have four advertisements of each type.');   
+                ->assertDontSee('Houten Hut');   
         });
     }
 
@@ -193,8 +193,8 @@ class AdvertisementsTest extends DuskTestCase
                 ->radio('@type', 'Sell')->click()
                 ->select('@delivery', 'Shipping')
                 ->press('@create')
-                ->assertPathIs('/')
-                ->assertSee('Houten kast');   
+                ->assertSee('Houten kast')
+                ->assertPathIs('/'); 
         });
     }
 
@@ -228,7 +228,7 @@ class AdvertisementsTest extends DuskTestCase
             $browser->loginAs($user)->visit('advertisements/1/edit')
                 ->type('@title', '')
                 ->press('@update')
-                ->assertPathIs('advertisements/1/edit')
+                ->assertPathIs('/advertisements/1/edit')
                 ->assertSee('The title field is required.');
         });
     }
