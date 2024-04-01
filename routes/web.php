@@ -78,6 +78,8 @@ Route::group(['middleware' => ['auth']], function () {
             'can:favorite advertisements',
             'can:bid advertisements'
         ]);
+    Route::post('packages/storecsv', [AdvertisementController::class, 'storeCSV'])->name('advertisements.storecsv');
+    Route::get('packages/createcsv', [AdvertisementController::class, 'createCSV'])->name('advertisements.createcsv');
     Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
     Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
 });

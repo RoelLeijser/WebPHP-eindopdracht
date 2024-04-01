@@ -33,4 +33,6 @@ return [
     'no_advertisements' => 'Er zijn geen advertenties gevonden.',
     "price_asc" => "Prijs oplopend",
     "price_desc" => "Prijs aflopend",
+    "import_csv_file" => "CSV importeren",
+    "upload" => "Uploaden",
 ];

@@ -33,4 +33,6 @@ return [
     'no_advertisements' => 'No advertisements found.',
     "price_asc" => "Price Ascending",
     "price_desc" => "Price Descending",
+    "import_csv_file" => "Import CSV",
+    "upload" => "Upload",
 ];
