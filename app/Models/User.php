@@ -81,8 +81,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Review::class, 'user_has_reviews');
     }
 
+<<<<<<< Updated upstream
     public function rentedProducts()
     {
         return $this->belongsToMany(Advertisement::class, 'rented_products');
+=======
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'user_has_reviews');
+>>>>>>> Stashed changes
     }
 }

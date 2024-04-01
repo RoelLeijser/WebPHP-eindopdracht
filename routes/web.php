@@ -30,7 +30,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    //Route::resource('review', ReviewController::class, ['except' => ['index', 'show', 'create',]]);
+    Route::get('history', [AdvertisementController::class, 'history'])->name('history');
     Route::get('review/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
     Route::put('review/{review}/update', [ReviewController::class, 'update'])->name('review.update');
     Route::delete('review/{review}/delete', [ReviewController::class, 'destroy'])->name('review.destroy');
