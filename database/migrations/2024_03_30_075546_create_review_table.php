@@ -17,26 +17,18 @@ return new class extends Migration
             $table->text('review');
             $table->timestamp('published_at');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
         });
 
         Schema::create('user_has_reviews', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('review_id');
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('review_id')->references('id')->on('reviews')->onDelete('cascade');
-    
+            $table->unsignedBigInteger('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('review_id')->constrained()->onDelete('cascade');
             $table->primary(['user_id', 'review_id']);
         });
 
         Schema::create('advertisement_has_reviews', function (Blueprint $table) {
-            $table->unsignedBigInteger('advertisement_id');
-            $table->unsignedBigInteger('review_id');
-
-            $table->foreign('advertisement_id')->references('id')->on('advertisements')->onDelete('cascade');
-            $table->foreign('review_id')->references('id')->on('reviews')->onDelete('cascade');
-    
+            $table->unsignedBigInteger('advertisement_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('review_id')->constrained()->onDelete('cascade');
             $table->primary(['advertisement_id', 'review_id']);
         });
     }

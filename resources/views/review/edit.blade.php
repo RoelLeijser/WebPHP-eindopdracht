@@ -16,11 +16,11 @@
                             @csrf
                             @method('PUT')
                             <div>
-                                <textarea class="h-32 w-full" name="review">{{$review->review}}</textarea>
+                                <textarea dusk="text" class="h-32 w-full" name="review">{{$review->review}}</textarea>
                                 <x-input-error :messages="$errors->get('review')" class="mt-2" />
                             </div>
                             <div class="py-2">
-                                <x-primary-button>{{ __('review.update_button') }}</x-primary-button>
+                                <x-primary-button dusk="update">{{ __('review.update_button') }}</x-primary-button>
                             </div>
                         </form>
                     </div>

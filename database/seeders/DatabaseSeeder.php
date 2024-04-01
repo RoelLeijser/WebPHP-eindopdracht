@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Layout;
+use App\Models\Review;
 
 
 class DatabaseSeeder extends Seeder
@@ -22,5 +23,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(ComponentSeeder::class);
                 Company::factory(5)->create();
                 Layout::factory(5)->create();
+                Review::factory(10)->create();
         }
 }

@@ -20,8 +20,7 @@ return new class extends Migration
             $table->string('font_style')->nullable();
             $table->string('primary_color')->nullable();
             $table->string('secondary_color')->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });
     }
 

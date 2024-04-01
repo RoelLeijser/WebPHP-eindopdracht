@@ -39,10 +39,10 @@ class CompanyTest extends DuskTestCase
 
     public function test_user_has_no_permission(): void
     {
-
         $this->browse(function (Browser $browser) {
             $user = User::find(1);
             $user->assignRole('zakelijke adverteerder');
+            $user->revokePermissionTo('contract accepted');
 
             $company = Company::find(1);
             $company->update(['user_id' => 1]);
