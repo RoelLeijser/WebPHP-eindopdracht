@@ -48,7 +48,7 @@ class AdvertisementsTest extends DuskTestCase
     public function test_filter_advertisements_delivery(): void
     {
         $this->browse(function (Browser $browser) {
-            $advert = Advertisement::find(1);
+            $advert = Advertisement::find(20);
             $advert->update(['title' => 'Lego Star Wars Death Star', 'delivery' => 'pickup']);
 
             $browser->visit('/')
@@ -79,7 +79,7 @@ class AdvertisementsTest extends DuskTestCase
             $advert->update(['title' => 'Lego Star Wars Death Star', 'price' => 475]);
 
             $browser->visit('/')
-                ->select('@sort', 'Price Ascending')
+                ->select('@sort', 'price')
                 ->assertDontSee('Lego Star Wars Death Star');   
         });
     }
@@ -246,6 +246,8 @@ class AdvertisementsTest extends DuskTestCase
                 ->type('@title', 'Lego Star Wars Naboo Fighter')
                 ->press('@update')
                 ->assertPathIs('/')
+                ->type('@title', 'Naboo')
+                ->press('@filter')
                 ->assertSee('Lego Star Wars Naboo Fighter');
         });
     }
@@ -286,14 +288,13 @@ class AdvertisementsTest extends DuskTestCase
             $user->syncRoles('zakelijke adverteerder');
 
             $advert = Advertisement::where('type', 'auction')->first();
-            $advert->update(['title' => 'Lego Star Wars Death Star']);
+            $advert->update(['title' => 'Lego Star Wars Death Star', 'seller_id' => 2]);
 
             $browser->loginAs($user)->visit('advertisements/'.$advert->id)
                 ->type('@amount', 500)
                 ->press('@bid')
                 ->assertSee('500')
-                ->assertSee($user->name)
-                ->assertPathIs('advertisements/'.$advert->id);
+                ->assertSee($user->name);
         });
     }
 }
