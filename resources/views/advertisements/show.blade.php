@@ -31,7 +31,7 @@
                                 <form action="{{ route('advertisements.destroy', [$advertisement->id]) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit"
+                                    <button type="submit" dusk="delete"
                                         class="bg-red-500 text-white px-4 py-2 rounded-full mt-2 inline-flex gap-2"
                                         onclick="return confirm(
                                             '{{ __('advertisement.delete_confirmation') }}'
@@ -53,7 +53,7 @@
                     @can('favorite advertisements')
                         <form action="{{ route('advertisements.favorite', [$advertisement->id]) }}" method="POST">
                             @csrf
-                            <button type="submit" class="p-2 rounded-full fill-black bg-slate-100 inline-block mt-2"
+                            <button dusk="favorite" type="submit" class="p-2 rounded-full fill-black bg-slate-100 inline-block mt-2"
                                 title="Favorite">
                                 @if ($isFavorite)
                                     <!-- Show filled heart icon -->
@@ -112,8 +112,8 @@
                                 <form action="{{ route('advertisements.bid', [$advertisement->id]) }}" method="POST"
                                     class="flex gap-4 justify-between">
                                     @csrf
-                                    <input type="text" name="amount" class="mt-2 w-1/2">
-                                    <button type="submit"
+                                    <input dusk="amount" type="text" name="amount" class="mt-2 w-1/2">
+                                    <button dusk="bid"  type="submit"
                                         class="bg-blue-500 text-white px-4 py-2 rounded-full mt-2">{{ __('advertisement.place_bid') }}</button>
                                 </form>
                                 @if ($errors->any())

@@ -23,10 +23,10 @@ class LocalizationTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $user = User::find(1);
 
-            $browser->loginAs($user)->visit('/dashboard')
+            $browser->loginAs($user)->visit('/')
                 ->click('@lang-gb')
-                ->assertPathIs('/dashboard')
-                ->assertSee('You\'re logged in!');
+                ->assertPathIs('/')
+                ->assertSee('Advertisements');
         });
     }
 
@@ -35,10 +35,10 @@ class LocalizationTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $user = User::find(1);
 
-            $browser->loginAs($user)->visit('/dashboard')
+            $browser->loginAs($user)->visit('/')
                 ->click('@lang-nl')
-                ->assertPathIs('/dashboard')
-                ->assertSee('Je bent ingelogd!');
+                ->assertPathIs('/')
+                ->assertSee('Advertenties');
         });
     }
 }
