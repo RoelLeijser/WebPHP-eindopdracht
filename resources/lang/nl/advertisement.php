@@ -2,7 +2,7 @@
 
 return [
     "pickup" => "Ophalen",
-    "shipping" => "Verzending",
+    "shipping" => "Verzenden",
     "pickup_and_shipping" => "Ophalen en verzenden",
     "advertisements" => "Advertenties",
     "for_sale" => "Te koop",
@@ -27,4 +27,10 @@ return [
     "place_bid" => "Bod plaatsen",
     "biddings" => "Biedingen",
     "company" => "Bedrijf: ",
+    "delete_confirmation" => "Weet u zeker dat u deze advertentie wilt verwijderen?",
+    "min_price" => "Min. prijs",
+    "max_price" => "Max. prijs",
+    'no_advertisements' => 'Er zijn geen advertenties gevonden.',
+    "price_asc" => "Prijs oplopend",
+    "price_desc" => "Prijs aflopend",
 ];

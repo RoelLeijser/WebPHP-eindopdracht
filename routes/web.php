@@ -3,10 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,10 +39,17 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function () {
-    Route::resource('company', CompanyController::class, ['except' => ['index', 'destroy']]);
+    Route::resource('company', CompanyController::class, ['except' => ['index']]);
 });
 
-Route::group(['middleware' => ['auth', 'can:contract accepted']], function () {
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
+    Route::resource('account', AccountController::class, ['except' => ['create', 'store']]);
+    Route::delete('company/{company}/delete', [CompanyController::class, 'destroy'])->name('company.destroy');
+    Route::get('contract/{account}', [ContractController::class, 'export'])->name('contract.export');
+    Route::put('contract/{account}', [ContractController::class, 'verify'])->name('contract.verify');
+});
+
+Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder', 'can:contract accepted']], function () {
     Route::get('company/{company}/edit', [CompanyController::class, 'edit'])->name('company.edit');
     Route::put('company/{company}', [CompanyController::class, 'update'])->name('company.update');
     Route::get('company/{company}/layout', [CompanyController::class, 'editPageLayout'])->name('company.edit.layout');
@@ -51,9 +58,6 @@ Route::group(['middleware' => ['auth', 'can:contract accepted']], function () {
     Route::delete('company/{company}/deleteApiKey', [CompanyController::class, 'deleteApiToken'])->name('company.deleteApiKey');
 });
 
-Route::group(['middleware' => ['auth', 'role:admin']], function () {
-    Route::resource('account', AccountController::class, ['except' => ['create', 'store', 'show']]);
-});
 
 //Language settings
 Route::get('set-locale/{locale}', function ($locale) {
@@ -64,10 +68,23 @@ Route::get('set-locale/{locale}', function ($locale) {
     return redirect()->back();
 })->name('locale.setting');
 
-Route::resource('advertisements', AdvertisementController::class);
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('advertisements', AdvertisementController::class)
+        ->except(['index', 'show'])
+        ->middleware([
+            'can:create advertisements',
+            'can:edit advertisements',
+            'can:delete advertisements',
+            'can:favorite advertisements',
+            'can:bid advertisements'
+        ]);
+    Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
+    Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
+});
+
 Route::get('advertisements/{user}/user', [AdvertisementController::class, 'advertisementsByUser'])->name('advertisements.user');
-Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
-Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
+Route::get('advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');
+Route::get('advertisements/{advertisement}', [AdvertisementController::class, 'show'])->name('advertisements.show');
 
 Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
 

@@ -12,6 +12,8 @@ return [
     'user_not_found' => 'De gebruiker kan niet worden gevonden',
     'role_filter' => 'Selecteer een rol',
     'null_results' => 'Geen accounts gevonden',
+    'contract_success' => 'Het uploaden van het contract is succevol verlopen',
+    'contract_fail' => 'Er ging iets mis met het uploaden van het contract',
     'edit' => [
         'title' => 'Wijzig account',
         'name' => 'Naam: ',
@@ -22,6 +24,13 @@ return [
         'success' => 'Het account is gewijzigd.',
         'fail' => 'Er is iets fout gegaan met het wijzigen, probeer het opnieuw',
     ],
+    'show' => [
+        'title' => 'Accountgegevens',
+        'role' => 'Rol: ',
+        'company' => 'Bedrijf: ',
+        'slug' => 'Landingspagina: ',
+    ],
     'favorites' => 'Favoriete advertenties',
     "no_favorites" => "U heeft geen favoriete advertenties.",
 ];
+

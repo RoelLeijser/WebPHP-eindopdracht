@@ -109,7 +109,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'nl_nl',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +168,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Elibyy\TCPDF\ServiceProvider::class,
+
     ])->toArray(),
 
     /*

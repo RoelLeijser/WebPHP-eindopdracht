@@ -12,6 +12,8 @@ return [
     'user_not_found' => 'The user cannot be found',
     'role_filter' => 'Select role',
     'null_results' => 'No accounts where found',
+    'contract_success' => 'We have successfully uploaded the contract',
+    'contract_fail' => 'We failed uploading the contract check if contract is signed',
     'edit' => [
         'title' => 'Edit account',
         'name' => 'Name: ',
@@ -21,6 +23,12 @@ return [
         'button' => 'Update account',
         'success' => 'Account has been updated with permissions and a role.',
         'fail' => 'Something went wrong when updating the account, pls try again',
+    ],
+    'show' => [
+        'title' => 'Account information',
+        'role' => 'Role: ',
+        'company' => 'Company: ',
+        'slug' => 'Link to company: ',
     ],
     'favorites' => 'Favorite advertisements',
     "no_favorites" => "You don't have any favorite advertisements.",

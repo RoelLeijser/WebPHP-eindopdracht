@@ -11,4 +11,8 @@ return [
     ],
     'yesterday' => 'Gisteren',
     'today' => 'Vandaag',
+    'filter' => 'Filter',
+    "newest" => "Nieuwste",
+    "oldest" => "Oudste",
+    "sort" => "Sorteer",
 ];

@@ -34,4 +34,9 @@ class Advertisement extends Model
     {
         return $this->belongsToMany(Review::class, 'advertisement_has_reviews');
     }
+  
+    public function scopePrice($query, $min, $max)
+    {
+        return $query->whereBetween('price', [$min, $max]);
+    }
 }
