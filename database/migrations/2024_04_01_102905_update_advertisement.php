@@ -33,5 +33,7 @@ return new class extends Migration
         Schema::table('advertisements', function (Blueprint $table) {
             $table->dropColumn('end_date');
         });
+
+        Schema::dropIfExists('rented_products');
     }
 };
