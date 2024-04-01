@@ -26,6 +26,7 @@ return [
     "auction" => "Auction",
     "place_bid" => "Place Bid",
     "biddings" => "Biddings",
+    "company" => "Company: ",
     "delete_confirmation" => "Are you sure you want to delete this advertisement?",
     "min_price" => "Min Price",
     "max_price" => "Max Price",

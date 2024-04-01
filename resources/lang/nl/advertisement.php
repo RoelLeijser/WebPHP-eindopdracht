@@ -26,6 +26,7 @@ return [
     "auction" => "Veiling",
     "place_bid" => "Bod plaatsen",
     "biddings" => "Biedingen",
+    "company" => "Bedrijf: ",
     "delete_confirmation" => "Weet u zeker dat u deze advertentie wilt verwijderen?",
     "min_price" => "Min. prijs",
     "max_price" => "Max. prijs",

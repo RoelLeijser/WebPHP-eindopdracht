@@ -47,6 +47,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user->assignRole($request->role);
+        $user->givePermissionTo(['change review', 'create review']);
 
         event(new Registered($user));
 

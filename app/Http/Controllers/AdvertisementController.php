@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Advertisement;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Favorite;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -101,10 +102,13 @@ class AdvertisementController extends Controller
         $advertisement = Advertisement::with(['bids' => function ($query) {
             $query->orderBy('amount', 'asc'); // Orders bids by highest bid amount
         }, 'seller', 'linkedAdvertisements'])->findOrFail($id);
+        
+        $reviews = $advertisement->reviews()->with('user')->orderByDesc('published_at')->paginate(3);
 
         return view('advertisements.show', [
             'advertisement' => $advertisement,
-            'isFavorite' =>  Auth::user() && Auth::user()->favorites->contains('advertisement_id', $id)
+            'isFavorite' => Auth::user() && Auth::user()->favorites->contains('advertisement_id', $id),
+            'reviews' => $reviews,
         ]);
     }
 
@@ -190,6 +194,16 @@ class AdvertisementController extends Controller
         Advertisement::findOrFail($id)->delete();
 
         return redirect()->route('advertisements.index');
+    }
+
+    public function advertisementsByUser($id) 
+    {
+        $advertisements = Advertisement::where('seller_id', $id)->orderBy('created_at', 'desc')->with('seller')->paginate(5);
+        $user = User::findOrFail($id);
+
+        $reviews = $user->reviews()->with('user')->orderByDesc('published_at')->paginate(3);
+
+        return view('advertisements.user', compact('advertisements', 'reviews'));
     }
 
     /**

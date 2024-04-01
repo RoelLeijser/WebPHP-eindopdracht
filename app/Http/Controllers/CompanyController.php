@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Layout;
 use App\Models\Component;
+use App\Models\Review;
+use App\Models\Advertisement;
 use Illuminate\Database\Eloquent\Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -132,12 +134,17 @@ class CompanyController extends Controller
     public function showLandingPage($slug): View
     {
         $company = Company::where('slug', $slug)->with('layout')->first();
-
         if (is_null($company)) {
             abort(404);
         }
 
-        return view('landingpage')->with(compact('company'));
+        $user = $company->user;
+
+
+        $adverts = Advertisement::where('seller_id', $user->id)->with('seller')->orderBy('created_at', 'desc')->paginate(3);
+        $reviews = $user->reviews()->paginate(3);
+
+        return view('landingpage')->with(compact('company', 'reviews', 'adverts'));
     }
 
     public function editPageLayout($id): View
