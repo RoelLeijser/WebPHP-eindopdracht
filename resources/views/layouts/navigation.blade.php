@@ -23,6 +23,11 @@
                     <x-nav-link :href="route('advertisements.index')" :active="request()->routeIs('advertisements.index')">
                         {{ __('advertisement.advertisements') }}
                     </x-nav-link>
+                    @role(['zakelijke adverteerder', 'particuliere adverteerder', 'admin'])
+                        <x-nav-link :href="route('account.agenda')" :active="request()->routeIs('account.agenda')">
+                            {{ __('account.agenda') }}
+                        </x-nav-link>
+                    @endrole
                 </div>
 
             </div>

@@ -29,13 +29,13 @@ class AccountController extends Controller
         return view('account.index')->with(compact('accounts', 'nextSort', 'roles'));
     }
 
-    public function show($id) : View
+    public function show($id): View
     {
         $account = User::findOrFail($id);
         return view('account.show')->with(compact('account'));
     }
 
-    public function edit($id) : View
+    public function edit($id): View
     {
         $account = User::findOrFail($id);
         $roles = Role::all()->pluck('name');
@@ -79,5 +79,24 @@ class AccountController extends Controller
         $account = Auth::user();
         $advertisements = Advertisement::whereIn('id', $account->favorites->pluck('advertisement_id'))->paginate(5);
         return view('account.favorites')->with(compact('advertisements'));
+    }
+
+    public function agenda(): View
+    {
+        $account = Auth::user();
+        $rentedProducts =  User::find($account->id)->rentedProducts()->with('renter')->paginate(5);
+
+        //only show the advertisements that are not rented with an end date in the future
+        $myAdvertisements = Advertisement::where('seller_id', $account->id)
+            ->whereDoesntHave('renter', function ($query) {
+                $query->where('end_date', '>', now());
+            })->paginate(5);
+
+        return view('account.agenda')->with(
+            [
+                'advertisements' => $myAdvertisements,
+                'rentedProducts' => $rentedProducts
+            ]
+        );
     }
 }

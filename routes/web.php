@@ -76,16 +76,25 @@ Route::group(['middleware' => ['auth']], function () {
             'can:edit advertisements',
             'can:delete advertisements',
             'can:favorite advertisements',
-            'can:bid advertisements'
         ]);
-    Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
-    Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
+    Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])
+        ->name('advertisements.bid')
+        ->middleware('can:bid advertisements');
+    Route::post('advertisements/{advertisement}/rent', [AdvertisementController::class, 'rent'])
+        ->name('advertisements.rent')
+        ->middleware('can:rent advertisements');
+    Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])
+        ->name('advertisements.favorite')
+        ->middleware('can:favorite advertisements');
+
+    Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
+    Route::get('/agenda', [AccountController::class, 'agenda'])->name('account.agenda');
 });
 
 Route::get('advertisements/{user}/user', [AdvertisementController::class, 'advertisementsByUser'])->name('advertisements.user');
 Route::get('advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');
 Route::get('advertisements/{advertisement}', [AdvertisementController::class, 'show'])->name('advertisements.show');
 
-Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
+
 
 Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');

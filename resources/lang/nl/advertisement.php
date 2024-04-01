@@ -33,4 +33,9 @@ return [
     'no_advertisements' => 'Er zijn geen advertenties gevonden.',
     "price_asc" => "Prijs oplopend",
     "price_desc" => "Prijs aflopend",
+    "end_date" => "Einddatum",
+    "rented_out" => "Verhuurd",
+    "rented_out_to" => "Verhuurd aan",
+    "my_advertisements" => "Mijn advertenties",
+    "until" => "Tot",
 ];

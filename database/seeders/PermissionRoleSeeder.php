@@ -39,6 +39,8 @@ class PermissionRoleSeeder extends Seeder
         Role::findByName('basis gebruiker')->givePermissionTo([
             'favorite advertisements',
             'bid advertisements',
+            'rent advertisements',
+            'buy advertisements',
         ]);
 
         Role::findByName('particuliere adverteerder')->givePermissionTo([
@@ -47,6 +49,8 @@ class PermissionRoleSeeder extends Seeder
             'delete advertisements',
             'favorite advertisements',
             'bid advertisements',
+            'rent advertisements',
+            'buy advertisements',
         ]);
 
         Role::findByName('zakelijke adverteerder')->givePermissionTo([
@@ -55,6 +59,8 @@ class PermissionRoleSeeder extends Seeder
             'delete advertisements',
             'favorite advertisements',
             'bid advertisements',
+            'rent advertisements',
+            'buy advertisements',
         ]);
     }
 }

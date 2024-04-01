@@ -32,5 +32,7 @@ return [
     ],
     'favorites' => 'Favoriete advertenties',
     "no_favorites" => "U heeft geen favoriete advertenties.",
+    "agenda" => "Agenda",
+    "no_advertisements" => "U heeft geen advertenties.",
+    "no_rented_products" => "U heeft geen verhuurde producten.",
 ];
-
