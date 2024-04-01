@@ -22,7 +22,8 @@
                         enctype="multipart/form-data">
                         @csrf
                         <input class="mb-3" type="file" name="file" accept=".csv" />
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        <button dusk="upload"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             type="submit">{{ __('advertisement.upload') }}
                         </button>
                     </form>
