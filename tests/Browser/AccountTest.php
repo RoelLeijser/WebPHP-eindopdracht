@@ -9,6 +9,7 @@ use App\Models\User;
 
 class AccountTest extends DuskTestCase
 {
+    use DatabaseMigrations;
 
     public function setUp(): void
     {

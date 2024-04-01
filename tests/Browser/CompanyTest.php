@@ -42,6 +42,7 @@ class CompanyTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $user = User::find(1);
             $user->assignRole('zakelijke adverteerder');
+            $user->revokePermissionTo('contract accepted');
 
             $company = Company::find(1);
             $company->update(['user_id' => 1]);

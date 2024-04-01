@@ -21,14 +21,6 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     //Route::resource('review', ReviewController::class, ['except' => ['index', 'show', 'create',]]);
     Route::get('review/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
@@ -92,7 +84,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::get('advertisements/{user}/user', [AdvertisementController::class, 'advertisementsByUser'])->name('advertisements.user');
-Route::get('advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');
+Route::get('/', [AdvertisementController::class, 'index'])->name('advertisements.index');
 Route::get('advertisements/{advertisement}', [AdvertisementController::class, 'show'])->name('advertisements.show');
 
 

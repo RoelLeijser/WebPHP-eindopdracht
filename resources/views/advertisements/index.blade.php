@@ -26,13 +26,13 @@
                         <div class="flex gap-2">
                             <div class="flex flex-col">
                                 <label for="filter[title]">{{ __('advertisement.title') }}</label>
-                                <input type="text" name="filter[title]" id="filter[title]"
+                                <input dusk="title" type="text" name="filter[title]" id="filter[title]"
                                     value="{{ request()->input('filter.title') }}"
                                     class="p-2 border border-gray-300 dark:border-gray-700 rounded">
                             </div>
                             <div class="flex flex-col w-full">
                                 <label for="filter[type]">{{ __('advertisement.type') }}</label>
-                                <select name="filter[type]" id="filter[type]"
+                                <select dusk="type" name="filter[type]" id="filter[type]"
                                     class="p-2 border border-gray-300 dark:border-gray-700 rounded inline-block w-32">
                                     <option value=""></option>
                                     <option value="sell" @if (request()->input('filter.type') == 'sell') selected @endif>
@@ -45,7 +45,7 @@
                             </div>
                             <div class="flex flex-col">
                                 <label for="filter[delivery]">{{ __('advertisement.delivery') }}</label>
-                                <select name="filter[delivery]" id="filter[delivery]"
+                                <select dusk="delivery" name="filter[delivery]" id="filter[delivery]"
                                     class="p-2 border border-gray-300 dark:border-gray-700 rounded inline-block w-32">
                                     <option value=""></option>
                                     <option value="pickup" @if (request()->input('filter.delivery') == 'pickup') selected @endif>
@@ -56,25 +56,25 @@
                             </div>
                             <div class="flex flex-col">
                                 <label for="filter[price]">{{ __('advertisement.min_price') }}</label>
-                                <input type="text" name="filter[price][]" id="filter[price]"
+                                <input dusk="price_min" type="text" name="filter[price][]" id="filter[price]"
                                     value="{{ request()->input('filter.price.0') ?: $price[0] }}"
                                     class="p-2 border border-gray-300 dark:border-gray-700 rounded w-24" default="0">
                             </div>
                             <div class="flex flex-col">
                                 <label for="filter[price]">{{ __('advertisement.max_price') }}</label>
-                                <input type="text" name="filter[price][]" id="filter[price]"
+                                <input dusk="price_max" type="text" name="filter[price][]" id="filter[price]"
                                     value="{{ request()->input('filter.price.1') ?: $price[1] }}"
                                     class="p-2 border border-gray-300 dark:border-gray-700 rounded w-24">
                             </div>
 
                             <div class="flex flex-col justify-end">
-                                <x-primary-button class="h-10"
+                                <x-primary-button dusk="filter" class="h-10"
                                     type="submit">{{ __('general.filter') }}</x-primary-button>
                             </div>
                         </div>
                         <div class="flex flex-col">
                             <label for="sort">{{ __('general.sort') }}</label>
-                            <select name="sort" id="sort"
+                            <select dusk="sort" name="sort" id="sort"
                                 class="p-2 border border-gray-300 dark:border-gray-700 rounded inline-block w-44"
                                 onchange="this.form.submit()">
                                 <option value="-created_at" @if (request()->input('sort') == '-created_at') selected @endif>
