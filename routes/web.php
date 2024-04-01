@@ -69,6 +69,9 @@ Route::group(['middleware' => ['auth']], function () {
             'can:delete advertisements',
             'can:favorite advertisements',
         ]);
+
+    Route::post('advertisements/storecsv', [AdvertisementController::class, 'storeCSV'])->name('advertisements.storecsv');
+    Route::get('advertisements/createcsv', [AdvertisementController::class, 'createCSV'])->name('advertisements.createcsv');
     Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])
         ->name('advertisements.bid')
         ->middleware('can:bid advertisements');

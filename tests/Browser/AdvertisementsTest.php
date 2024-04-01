@@ -19,6 +19,98 @@ class AdvertisementsTest extends DuskTestCase
         $this->artisan('db:seed');
     }
 
+    /**
+     * @group advertisements
+     */
+    public function test_upload_csv_file(): void
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::find(1);
+            $user->assignRole('admin');
+
+            $filePath = __DIR__ . '/../test_files/csv/advertisements_working.csv';
+
+            $browser->loginAs($user)->visit('/')
+                ->press('@dropdown_button')
+                ->assertSee('Import CSV')
+                ->press('@import_csv_file')
+                ->attach('file', $filePath)
+                ->press('@upload');
+        });
+
+        $this->assertDatabaseHas('advertisements', [
+            'title' => 'Lederen jas maat 52 XL',
+            'description' => 'lichte lederen jas. ECHT LEER!. Word niet meer gedragen.',
+            'price' => '25',
+            'image' => 'https://images.marktplaats.com/api/v1/listing-mp-p/images/20/2048ce5d-10d2-4226-967a-d5572538c98d?rule=ecg_mp_eps$_84',
+            'type' => 'auction',
+            'delivery' => 'pickup_shipping',
+        ]);
+    }
+
+    /**
+     * @group advertisements
+     */
+    public function test_upload_csv_file_with_empty_columns()
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::find(1);
+            $user->assignRole('admin');
+
+            $filePath = __DIR__ . '/../test_files/csv/advertisements_empty_columns.csv';
+
+            $browser->loginAs($user)->visit('/')
+                ->press('@dropdown_button')
+                ->assertSee('Import CSV')
+                ->press('@import_csv_file')
+                ->attach('file', $filePath)
+                ->press('@upload')
+                ->assertSee('The CSV file doesn\'t have the correct amount of columns.');
+        });
+
+        $this->assertDatabaseMissing('advertisements', [
+            'title' => 'Lederen jas maat 52 XL',
+            'description' => 'lichte lederen jas. ECHT LEER!. Word niet meer gedragen.',
+            'price' => '25',
+            'image' => 'https://images.marktplaats.com/api/v1/listing-mp-p/images/20/2048ce5d-10d2-4226-967a-d5572538c98d?rule=ecg_mp_eps$_84',
+            'type' => 'auction',
+            'delivery' => 'pickup_shipping',
+        ]);
+    }
+
+
+    /**
+     * @group advertisements
+     */
+    public function test_upload_csv_file_with_invalid_columns()
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::find(1);
+            $user->assignRole('admin');
+
+            $browser->loginAs($user)->visit('/')
+                ->press('@dropdown_button')
+                ->assertSee('Import CSV')
+                ->press('@import_csv_file')
+                ->attach('file', __DIR__ . '/../test_files/csv/advertisements_invalid_delivery.csv')
+                ->press('@upload')
+                ->assertSee('Delivery must be pickup, shipping or pickup_shipping.')
+
+                ->attach('file', __DIR__ . '/../test_files/csv/advertisements_invalid_type.csv')
+                ->press('@upload')
+                ->assertSee('Type must be auction, sell or rental.');
+        });
+
+        $this->assertDatabaseMissing('advertisements', [
+            'title' => 'Lederen jas maat 52 XL',
+            'description' => 'lichte lederen jas. ECHT LEER!. Word niet meer gedragen.',
+            'price' => '25',
+            'image' => 'https://images.marktplaats.com/api/v1/listing-mp-p/images/20/2048ce5d-10d2-4226-967a-d5572538c98d?rule=ecg_mp_eps$_84',
+            'type' => 'auction',
+            'delivery' => 'pickup_shipping',
+        ]);
+    }
+
     public function test_filter_advertisements_title(): void
     {
         $this->browse(function (Browser $browser) {
@@ -28,7 +120,7 @@ class AdvertisementsTest extends DuskTestCase
             $browser->visit('/')
                 ->type('@title', 'Lego Star Wars')
                 ->press('@filter')
-                ->assertSee('Lego Star Wars Death Star');   
+                ->assertSee('Lego Star Wars Death Star');
         });
     }
 
@@ -41,7 +133,7 @@ class AdvertisementsTest extends DuskTestCase
             $browser->visit('/')
                 ->select('@type', 'sell')
                 ->press('@filter')
-                ->assertSee('Lego Star Wars Death Star');   
+                ->assertSee('Lego Star Wars Death Star');
         });
     }
 
@@ -54,7 +146,7 @@ class AdvertisementsTest extends DuskTestCase
             $browser->visit('/')
                 ->select('@delivery', 'pickup')
                 ->press('@filter')
-                ->assertSee('Lego Star Wars Death Star');   
+                ->assertSee('Lego Star Wars Death Star');
         });
     }
 
@@ -68,7 +160,7 @@ class AdvertisementsTest extends DuskTestCase
                 ->type('@price_min', '0')
                 ->type('@price_max', '300')
                 ->press('@filter')
-                ->assertDontSee('Lego Star Wars Death Star');   
+                ->assertDontSee('Lego Star Wars Death Star');
         });
     }
 
@@ -80,7 +172,7 @@ class AdvertisementsTest extends DuskTestCase
 
             $browser->visit('/')
                 ->select('@sort', 'price')
-                ->assertDontSee('Lego Star Wars Death Star');   
+                ->assertDontSee('Lego Star Wars Death Star');
         });
     }
 
@@ -90,7 +182,7 @@ class AdvertisementsTest extends DuskTestCase
             $browser->visit('/')
                 ->assertSee('Advertisements')
                 ->assertSee('Title')
-                ->assertSee('Sort');    
+                ->assertSee('Sort');
         });
     }
 
@@ -121,7 +213,7 @@ class AdvertisementsTest extends DuskTestCase
                 ->radio('@type', 'Sell')->click()
                 ->select('@delivery', 'Shipping')
                 ->press('@create')
-                ->assertSee('The image must be an image.');   
+                ->assertSee('The image must be an image.');
         });
     }
 
@@ -141,7 +233,7 @@ class AdvertisementsTest extends DuskTestCase
                 ->radio('@type', 'Sell')->click()
                 ->select('@delivery', 'Shipping')
                 ->press('@create')
-                ->assertSee('The title field is required.');   
+                ->assertSee('The title field is required.');
         });
     }
 
@@ -173,7 +265,7 @@ class AdvertisementsTest extends DuskTestCase
                 ->radio('@type', 'Sell')->click()
                 ->select('@delivery', 'Shipping')
                 ->press('@create')
-                ->assertDontSee('Houten Hut');   
+                ->assertDontSee('Houten Hut');
         });
     }
 
@@ -194,7 +286,7 @@ class AdvertisementsTest extends DuskTestCase
                 ->select('@delivery', 'Shipping')
                 ->press('@create')
                 ->assertSee('Houten kast')
-                ->assertPathIs('/'); 
+                ->assertPathIs('/');
         });
     }
 
@@ -238,7 +330,7 @@ class AdvertisementsTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $user = User::find(1);
             $user->syncRoles('zakelijke adverteerder');
-            
+
             $advert = Advertisement::find(1);
             $advert->update(['title' => 'Lego Star Wars Death Star', 'seller_id' => 1]);
 
@@ -290,7 +382,7 @@ class AdvertisementsTest extends DuskTestCase
             $advert = Advertisement::where('type', 'auction')->first();
             $advert->update(['title' => 'Lego Star Wars Death Star', 'seller_id' => 2]);
 
-            $browser->loginAs($user)->visit('advertisements/'.$advert->id)
+            $browser->loginAs($user)->visit('advertisements/' . $advert->id)
                 ->type('@amount', 500)
                 ->press('@bid')
                 ->assertSee('500')

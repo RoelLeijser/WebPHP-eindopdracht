@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Favorite;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\Permission\Traits\HasRoles;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
 
 class AdvertisementController extends Controller
 {
@@ -267,6 +269,72 @@ class AdvertisementController extends Controller
         }
 
         return redirect()->route('advertisements.show', $id);
+    }
+
+    public function createCSV()
+    {
+        return view('advertisements.createcsv');
+    }
+
+    public function storeCSV(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,txt',
+        ]);
+
+        $reader = new Csv();
+        $reader->setDelimiter(';');
+        $reader->setEnclosure('"');
+        $reader->setSheetIndex(0);
+        $spreadsheet = $reader->load($request->file('file')->getPathname());
+        $rows = $spreadsheet->getActiveSheet()->toArray();
+
+
+
+        foreach ($rows as $row) {
+            if (count($row) !== 6) {
+                return redirect()->route('advertisements.createcsv')
+                    ->withErrors("The CSV file doesn't have the correct amount of columns.");
+            }
+
+            if (in_array("", $row)) {
+                return redirect()->route('advertisements.createcsv')
+                    ->withErrors('The CSV file must not have empty columns.');
+            }
+
+            $advertisementCount = Advertisement::where('seller_id', auth()->id())
+                ->where('type', $row[4])
+                ->count();
+
+            if ($advertisementCount >= 4) {
+                return redirect()->route('advertisements.createcsv')
+                    ->withErrors('You can only have four advertisements of each type.');
+            }
+
+            if (!in_array($row[4], ['auction', 'sell', 'rental'])) {
+                return redirect()->route('advertisements.createcsv')
+                    ->withErrors('Type must be auction, sell or rental.');
+            }
+
+            if (!in_array($row[5], ['pickup', 'shipping', 'pickup_shipping'])) {
+                return redirect()->route('advertisements.createcsv')
+                    ->withErrors('Delivery must be pickup, shipping or pickup_shipping.');
+            }
+        }
+
+        foreach ($rows as $row) {
+            Advertisement::create([
+                'title' => $row[0],
+                'description' => $row[1],
+                'seller_id' => auth()->id(),
+                'price' => $row[2],
+                'image' => $row[3],
+                'type' => $row[4],
+                'delivery' => $row[5],
+            ]);
+        }
+
+        return redirect()->route('advertisements.index');
     }
 
     public function rent(Request $request, string $id)
