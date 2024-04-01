@@ -35,8 +35,8 @@
                         <div class="flex flex-col gap-2">
                             <label for="description"
                                 class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.description') }}</label>
-                            <textarea dusk="description" name="description" id="description" class="p-2 border border-gray-300 dark:border-gray-700 rounded-lg"
-                                required></textarea>
+                            <textarea dusk="description" name="description" id="description"
+                                class="p-2 border border-gray-300 dark:border-gray-700 rounded-lg" required></textarea>
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="price"
@@ -49,17 +49,20 @@
                                 class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.type') }}</label>
                             <div class="flex gap-4">
                                 <div class="flex items-center">
-                                    <input dusk="type" type="radio" name="type" id="sell" value="sell" class="mr-2">
+                                    <input dusk="type" type="radio" name="type" id="sell" value="sell"
+                                        class="mr-2">
                                     <label for="sell"
                                         class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.sell') }}</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input dusk="type" type="radio" name="type" id="rental" value="rental" class="mr-2">
+                                    <input dusk="type" type="radio" name="type" id="rental" value="rental"
+                                        class="mr-2">
                                     <label for="rental"
                                         class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.rent') }}</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input dusk="type" type="radio" name="type" id="auction" value="auction" class="mr-2">
+                                    <input dusk="type" type="radio" name="type" id="auction" value="auction"
+                                        class="mr-2">
                                     <label for="auction"
                                         class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.auction') }}</label>
                                 </div>
@@ -73,6 +76,15 @@
                                 </option>
                                 <option value="shipping">{{ __('advertisement.shipping') }}</option>
                                 <option value="pickup">{{ __('advertisement.pickup') }}</option>
+                            </select>
+
+                            <label for="linkedAdvertisement"
+                                class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.linked_advertisements') }}</label>
+                            <select name="linkedAdvertisements[]"
+                                class="p-2 border border-gray-300 dark:border-gray-700 rounded-lg" multiple>
+                                @foreach ($allAdvertisements as $advertisement)
+                                    <option value="{{ $advertisement->id }}">{{ $advertisement->title }}</option>
+                                @endforeach
                             </select>
 
                             <button dusk="create" type="submit"

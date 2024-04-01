@@ -20,6 +20,11 @@
                     <x-nav-link :href="route('advertisements.index')" :active="request()->routeIs('advertisements.index')">
                         {{ __('advertisement.advertisements') }}
                     </x-nav-link>
+                    @role(['zakelijke adverteerder', 'particuliere adverteerder', 'admin'])
+                        <x-nav-link :href="route('account.agenda')" :active="request()->routeIs('account.agenda')">
+                            {{ __('account.agenda') }}
+                        </x-nav-link>
+                    @endrole
                 </div>
 
             </div>
@@ -28,6 +33,7 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-nav-link dusk="lang-gb" :href="route('locale.setting', 'en')"><span class="fi fi-gb"></span></x-nav-link>
                 <x-nav-link dusk="lang-nl" :href="route('locale.setting', 'nl')"><span class="fi fi-nl"></span></x-nav-link>
+
                 @if (Auth::check())
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -92,6 +98,7 @@
                                 {{ __('auth.log_out') }}
                             </x-responsive-nav-link>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -122,6 +129,4 @@
             </div>
         </div>
     </div>
-
-
 </nav>

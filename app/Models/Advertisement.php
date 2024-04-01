@@ -30,8 +30,23 @@ class Advertisement extends Model
         return $this->belongsTo(User::class, 'seller_id');
     }
 
+    public function reviews()
+    {
+        return $this->belongsToMany(Review::class, 'advertisement_has_reviews');
+    }
+
     public function scopePrice($query, $min, $max)
     {
         return $query->whereBetween('price', [$min, $max]);
+    }
+
+    public function renter()
+    {
+        return $this->belongsToMany(User::class, 'rented_products', 'advertisement_id', 'user_id')->withPivot('start_date', 'end_date');
+    }
+
+    public function linkedAdvertisements()
+    {
+        return $this->belongsToMany(Advertisement::class, 'linked_advertisements', 'advertisement_id', 'linked_advertisement_id');
     }
 }

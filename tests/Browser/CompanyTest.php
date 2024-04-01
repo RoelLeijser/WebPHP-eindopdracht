@@ -39,7 +39,6 @@ class CompanyTest extends DuskTestCase
 
     public function test_user_has_no_permission(): void
     {
-
         $this->browse(function (Browser $browser) {
             $user = User::find(1);
             $user->assignRole('zakelijke adverteerder');

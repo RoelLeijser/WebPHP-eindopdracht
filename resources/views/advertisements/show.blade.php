@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
             <div
                 class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8 dark:bg-gray-800 dark:text-white flex gap-4">
                 <div class="w-full">
@@ -80,6 +80,13 @@
                         'filter[seller_id]' => $advertisement->seller->id,
                     ]) }}"
                         class="text-blue-500 hover:underline">{{ $advertisement->seller->name }}</a>
+                    @if (!is_null($advertisement->seller->company))
+                        <span>{{ __('advertisement.company') }}<a
+                                href="{{ route('landingpage', $advertisement->seller->company->slug) }}"
+                                class="text-blue-500 dark:text-blue-400 hover:underline  whitespace-nowrap">
+                                {{ $advertisement->seller->company->name }}
+                            </a></span>
+                    @endif
                     <span class="text-5xl">&euro;&nbsp;{{ $advertisement->price }}</span>
                     @if ($advertisement->delivery === 'pickup')
                         <span class="text-slate-400">{{ __('advertisement.pickup') }}</span>
@@ -90,11 +97,28 @@
                     @endif
 
                     @if ($advertisement->type === 'sell')
+
                         <button
-                            class="bg-blue-500 text-white px-4 py-2 rounded-full">{{ __('advertisement.buy') }}</button>
+                            class="bg-blue-500 text-white px-4 py-2 rounded-full mt-2">{{ __('advertisement.buy') }}
+                        </button>
+
+                        @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                                <p class="text-red-500">{{ $error }}</p>
+                            @endforeach
+                        @endif
                     @elseif ($advertisement->type === 'rental')
-                        <button
-                            class="bg-blue-500 text-white px-4 py-2 rounded-full">{{ __('advertisement.rent') }}</button>
+                        <form action="{{ route('advertisements.rent', [$advertisement->id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-full mt-2">
+                                {{ __('advertisement.rent') }}
+                            </button>
+                        </form>
+                        @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                                <p class="text-red-500">{{ $error }}</p>
+                            @endforeach
+                        @endif
                     @elseif ($advertisement->type === 'auction')
                         <!-- Show all biddings -->
                         <div class="mt-4">
@@ -126,6 +150,19 @@
                         </div>
                     @endif
 
+
+
+                    @if ($advertisement->linkedAdvertisements->count() > 0)
+                        <h3 class="text-xl font-bold mt-4">{{ __('advertisement.linked_advertisements') }}</h3>
+                        <div class="justify-center select-none flex">
+                            @foreach ($advertisement->linkedAdvertisements as $linked)
+                                <a href="{{ route('advertisements.show', [$linked->id]) }}"
+                                    class="py-2 px-4 shadow-md no-underline rounded-full bg-blue-500 text-white font-sans font-semibold text-sm border-blue hover:bg-blue-light focus:outline-none active:shadow-none mr-2">
+                                    #{{ $linked->title }}
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
                     <!-- Share QR code -->
                     <div class="relative group h-[340px]">
                         <span class="cursor-pointer underline text-blue-500">{{ __('advertisement.share') }}</span>
@@ -136,4 +173,23 @@
                     </div>
                 </div>
             </div>
+        </div>
+        @if ($advertisement->type == 'rental')
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
+                <div
+                    class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-8 dark:bg-gray-800 dark:text-white gap-4">
+                    @can('create review')
+                        <x-review-create route="review.store.advertisement" :id="$advertisement->id"
+                            :advertisement="$advertisement"></x-review-create>
+                    @endcan
+                    @foreach ($reviews as $review)
+                        <x-review :review="$review" />
+                    @endforeach
+                    <div class="py-4 px-3">
+                        <hr class="py-1" />
+                        {{ $reviews->links() }}
+                    </div>
+                </div>
+            </div>
+        @endif
 </x-app-layout>

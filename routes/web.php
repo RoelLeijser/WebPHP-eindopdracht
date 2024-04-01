@@ -5,6 +5,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 require __DIR__ . '/auth.php';
+
+Route::middleware('auth')->group(function () {
+    //Route::resource('review', ReviewController::class, ['except' => ['index', 'show', 'create',]]);
+    Route::get('review/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
+    Route::put('review/{review}/update', [ReviewController::class, 'update'])->name('review.update');
+    Route::delete('review/{review}/delete', [ReviewController::class, 'destroy'])->name('review.destroy');
+    Route::post('review/{user}/user', [ReviewController::class, 'storeForUser'])->name('review.store.user');
+    Route::post('review/{advertisement}/advertisement', [ReviewController::class, 'storeForAdvertisements'])->name('review.store.advertisement');
+});
 
 Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function () {
     Route::resource('company', CompanyController::class, ['except' => ['index']]);
@@ -58,15 +68,25 @@ Route::group(['middleware' => ['auth']], function () {
             'can:edit advertisements',
             'can:delete advertisements',
             'can:favorite advertisements',
-            'can:bid advertisements'
         ]);
-    Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])->name('advertisements.bid');
-    Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
+    Route::post('advertisements/{advertisement}/bid', [AdvertisementController::class, 'bid'])
+        ->name('advertisements.bid')
+        ->middleware('can:bid advertisements');
+    Route::post('advertisements/{advertisement}/rent', [AdvertisementController::class, 'rent'])
+        ->name('advertisements.rent')
+        ->middleware('can:rent advertisements');
+    Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])
+        ->name('advertisements.favorite')
+        ->middleware('can:favorite advertisements');
+
+    Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
+    Route::get('/agenda', [AccountController::class, 'agenda'])->name('account.agenda');
 });
 
+Route::get('advertisements/{user}/user', [AdvertisementController::class, 'advertisementsByUser'])->name('advertisements.user');
 Route::get('/', [AdvertisementController::class, 'index'])->name('advertisements.index');
 Route::get('advertisements/{advertisement}', [AdvertisementController::class, 'show'])->name('advertisements.show');
 
-Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
+
 
 Route::get('/{slug}', [CompanyController::class, "showLandingPage"])->name('landingpage');

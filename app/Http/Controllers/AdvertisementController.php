@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Advertisement;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Favorite;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\Permission\Traits\HasRoles;
 
 class AdvertisementController extends Controller
 {
@@ -25,9 +25,16 @@ class AdvertisementController extends Controller
                 AllowedFilter::exact('seller_id'),
                 AllowedFilter::scope('price')
             ])
-            ->allowedIncludes(['seller'])
+            ->allowedIncludes(['seller', 'renter'])
             ->defaultSort('-created_at')
             ->allowedSorts(['price', 'created_at'])
+            ->where([
+                ['end_date', '>', now()],
+                ['seller_id', '!=', auth()->id()],
+            ])
+            ->whereDoesntHave('renter', function ($query) {
+                $query->where('end_date', '>', now());
+            })
             ->paginate(10)
             ->appends(request()->query());
 
@@ -44,7 +51,10 @@ class AdvertisementController extends Controller
      */
     public function create()
     {
-        return view('advertisements.create');
+        return view(
+            'advertisements.create',
+            ['allAdvertisements' => Advertisement::where('seller_id', auth()->id())->get()]
+        );
     }
 
     /**
@@ -59,6 +69,7 @@ class AdvertisementController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'type' => 'required',
             'delivery' => 'required',
+            'linkedAdvertisements' => 'array|max:3',
         ]);
 
         //more more than four with each type per person
@@ -74,7 +85,7 @@ class AdvertisementController extends Controller
         $imageName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $imageName);
 
-        Advertisement::create([
+        $advertisement = Advertisement::create([
             'title' => $request->title,
             'description' => $request->description,
             'seller_id' => auth()->id(),
@@ -83,6 +94,8 @@ class AdvertisementController extends Controller
             'type' => $request->type,
             'delivery' => $request->delivery,
         ]);
+
+        $advertisement->linkedAdvertisements()->attach($request->linkedAdvertisements);
 
         return redirect()->route('advertisements.index');
     }
@@ -94,11 +107,14 @@ class AdvertisementController extends Controller
     {
         $advertisement = Advertisement::with(['bids' => function ($query) {
             $query->orderBy('amount', 'asc'); // Orders bids by highest bid amount
-        }, 'seller'])->findOrFail($id);
+        }, 'seller', 'linkedAdvertisements'])->findOrFail($id);
+
+        $reviews = $advertisement->reviews()->with('user')->orderByDesc('published_at')->paginate(3);
 
         return view('advertisements.show', [
             'advertisement' => $advertisement,
-            'isFavorite' =>  Auth::user() && Auth::user()->favorites->contains('advertisement_id', $id)
+            'isFavorite' => Auth::user() && Auth::user()->favorites->contains('advertisement_id', $id),
+            'reviews' => $reviews,
         ]);
     }
 
@@ -110,6 +126,9 @@ class AdvertisementController extends Controller
     {
         return view('advertisements.edit', [
             'advertisement' => Advertisement::findOrFail($id),
+            'allAdvertisements' => Advertisement::where('seller_id', auth()->id())
+                ->where('id', '!=', $id)
+                ->get()
         ]);
     }
 
@@ -158,6 +177,7 @@ class AdvertisementController extends Controller
             'type' => $request->type,
             'delivery' => $request->delivery,
         ]);
+        $advertisement->linkedAdvertisements()->sync($request->linkedAdvertisements);
 
         return redirect()->route('advertisements.index');
     }
@@ -180,6 +200,16 @@ class AdvertisementController extends Controller
         Advertisement::findOrFail($id)->delete();
 
         return redirect()->route('advertisements.index');
+    }
+
+    public function advertisementsByUser($id)
+    {
+        $advertisements = Advertisement::where('seller_id', $id)->orderBy('created_at', 'desc')->with('seller')->paginate(5);
+        $user = User::findOrFail($id);
+
+        $reviews = $user->reviews()->with('user')->orderByDesc('published_at')->paginate(3);
+
+        return view('advertisements.user', compact('advertisements', 'reviews'));
     }
 
     /**
@@ -235,6 +265,35 @@ class AdvertisementController extends Controller
                 'advertisement_id' => $id,
             ]);
         }
+
+        return redirect()->route('advertisements.show', $id);
+    }
+
+    public function rent(Request $request, string $id)
+    {
+        $advertisement = Advertisement::findOrFail($id);
+
+        if ($advertisement->seller_id === auth()->id()) {
+            return redirect()->route('advertisements.show', $id)
+                ->withErrors('You can not rent your own advertisement.');
+        }
+
+        if ($advertisement->renter()->where([
+            ['user_id', auth()->id()],
+            ['end_date', '>', now()],
+        ])->exists()) {
+            return redirect()->route('advertisements.show', $id)
+                ->withErrors('You have already rented this advertisement.');
+        }
+        if ($advertisement->renter()->where('end_date', '>', now())->exists()) {
+            return redirect()->route('advertisements.show', $id)
+                ->withErrors('This advertisement is already rented.');
+        }
+
+        $advertisement->renter()->attach(auth()->id(), [
+            'start_date' => now(),
+            'end_date' => now()->addDays(7),
+        ]);
 
         return redirect()->route('advertisements.show', $id);
     }

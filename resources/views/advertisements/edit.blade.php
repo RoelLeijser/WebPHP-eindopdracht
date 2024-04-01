@@ -38,8 +38,8 @@
                         <div class="flex flex-col gap-2">
                             <label for="description"
                                 class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.description') }}</label>
-                            <textarea dusk="description" name="description" id="description" class="p-2 border border-gray-300 dark:border-gray-700 rounded-lg"
-                                required>{{ $advertisement->description }}</textarea>
+                            <textarea dusk="description" name="description" id="description"
+                                class="p-2 border border-gray-300 dark:border-gray-700 rounded-lg" required>{{ $advertisement->description }}</textarea>
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="price"
@@ -53,20 +53,22 @@
                                 class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.type') }}</label>
                             <div class="flex gap-4">
                                 <div class="flex items-center">
-                                    <input dusk="type" type="radio" name="type" id="sell" value="sell" class="mr-2"
-                                        required {{ $advertisement->type === 'sell' ? 'checked' : '' }}>
+                                    <input dusk="type" type="radio" name="type" id="sell" value="sell"
+                                        class="mr-2" required {{ $advertisement->type === 'sell' ? 'checked' : '' }}>
                                     <label for="sell"
                                         class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.sell') }}</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input dusk="type" type="radio" name="type" id="rental" value="rental" class="mr-2"
-                                        required {{ $advertisement->type === 'rental' ? 'checked' : '' }}>
+                                    <input dusk="type" type="radio" name="type" id="rental" value="rental"
+                                        class="mr-2" required
+                                        {{ $advertisement->type === 'rental' ? 'checked' : '' }}>
                                     <label for="rental"
                                         class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.rent') }}</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input dusk="type" type="radio" name="type" id="auction" value="auction" class="mr-2"
-                                        required {{ $advertisement->type === 'auction' ? 'checked' : '' }}>
+                                    <input dusk="type" type="radio" name="type" id="auction" value="auction"
+                                        class="mr-2" required
+                                        {{ $advertisement->type === 'auction' ? 'checked' : '' }}>
                                     <label for="auction"
                                         class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.auction') }}</label>
                                 </div>
@@ -84,6 +86,17 @@
                                     {{ __('advertisement.shipping') }}</option>
                                 <option value="pickup" {{ $advertisement->delivery === 'pickup' ? 'selected' : '' }}>
                                     {{ __('advertisement.pickup') }}</option>
+                            </select>
+
+                            <label for="linkedAdvertisement"
+                                class="text-sm text-gray-600 dark:text-gray-300">{{ __('advertisement.linked_advertisements') }}</label>
+                            <select name="linkedAdvertisements[]"
+                                class="p-2 border border-gray-300 dark:border-gray-700 rounded-lg" multiple>
+                                @foreach ($allAdvertisements as $advertisement)
+                                    <option value="{{ $advertisement->id }}"
+                                        @if ($advertisement->linkedAdvertisements->contains($advertisement->id)) selected @endif>
+                                        {{ $advertisement->title }}</option>
+                                @endforeach
                             </select>
 
                             <button dusk="update" type="submit"
