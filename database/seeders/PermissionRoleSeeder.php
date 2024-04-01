@@ -55,7 +55,6 @@ class PermissionRoleSeeder extends Seeder
             'delete advertisements',
             'favorite advertisements',
             'bid advertisements',
-            'contract accepted',
         ]);
     }
 }
