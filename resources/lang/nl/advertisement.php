@@ -33,4 +33,5 @@ return [
     'no_advertisements' => 'Er zijn geen advertenties gevonden.',
     "price_asc" => "Prijs oplopend",
     "price_desc" => "Prijs aflopend",
+    "linked_advertisements" => "Gekoppelde advertenties",
 ];

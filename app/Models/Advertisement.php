@@ -39,4 +39,9 @@ class Advertisement extends Model
     {
         return $query->whereBetween('price', [$min, $max]);
     }
+
+    public function linkedAdvertisements()
+    {
+        return $this->belongsToMany(Advertisement::class, 'linked_advertisements', 'advertisement_id', 'linked_advertisement_id');
+    }
 }

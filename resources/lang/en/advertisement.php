@@ -33,4 +33,5 @@ return [
     'no_advertisements' => 'No advertisements found.',
     "price_asc" => "Price Ascending",
     "price_desc" => "Price Descending",
+    "linked_advertisements" => "Linked Advertisements",
 ];
