@@ -20,14 +20,6 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::group(['middleware' => ['auth', 'role:zakelijke adverteerder']], function () {
     Route::resource('company', CompanyController::class, ['except' => ['index']]);
 });
@@ -72,7 +64,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('advertisements/{advertisement}/favorite', [AdvertisementController::class, 'favorite'])->name('advertisements.favorite');
 });
 
-Route::get('advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');
+Route::get('/', [AdvertisementController::class, 'index'])->name('advertisements.index');
 Route::get('advertisements/{advertisement}', [AdvertisementController::class, 'show'])->name('advertisements.show');
 
 Route::get('/favorites', [AccountController::class, 'favorites'])->name('account.favorites');
