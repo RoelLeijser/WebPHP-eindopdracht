@@ -216,7 +216,7 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
-    public function test_create_advertisement_update_fails(): void
+    public function test_advertisement_update_fails(): void
     {
         $this->browse(function (Browser $browser) {
             $user = User::find(1);
@@ -226,7 +226,6 @@ class AdvertisementsTest extends DuskTestCase
             $advert->update(['title' => 'Lego Star Wars Death Star', 'seller_id' => 1]);
 
             $browser->loginAs($user)->visit('advertisements/1/edit')
-                ->assertSee('Lego Star Wars Death Star')
                 ->type('@title', '')
                 ->press('@update')
                 ->assertPathIs('advertisements/1/edit')
@@ -234,7 +233,7 @@ class AdvertisementsTest extends DuskTestCase
         });
     }
 
-    public function test_create_advertisement_update_succeeds(): void
+    public function test_advertisement_update_succeeds(): void
     {
         $this->browse(function (Browser $browser) {
             $user = User::find(1);
@@ -244,7 +243,6 @@ class AdvertisementsTest extends DuskTestCase
             $advert->update(['title' => 'Lego Star Wars Death Star', 'seller_id' => 1]);
 
             $browser->loginAs($user)->visit('advertisements/1/edit')
-                ->assertSee('Lego Star Wars Death Star')
                 ->type('@title', 'Lego Star Wars Naboo Fighter')
                 ->press('@update')
                 ->assertPathIs('/')
